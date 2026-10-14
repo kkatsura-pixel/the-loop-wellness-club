@@ -6,6 +6,14 @@
 .home-space .space-image{filter:saturate(.82) contrast(.96)}
 .nature{background-blend-mode:normal,normal}
 @media(max-width:850px){.home-space .space-image{background-position:center center}}
+
+/* HOME: seamless transparent navigation over the hero image */
+body>header{position:absolute;top:0;left:0;right:0;z-index:20;background:transparent;color:#fff;text-shadow:0 1px 12px #18231b80;padding-top:clamp(20px,2.5vw,36px)}
+body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
+.home-hero{min-height:100svh;padding-top:clamp(130px,14vw,220px)}
+.home-hero:before{background:linear-gradient(180deg,rgba(17,24,19,.36) 0%,rgba(17,24,19,.10) 28%,rgba(12,27,23,.54) 100%)}
+@media(max-width:850px){body>header{padding-top:22px}body>header nav{margin-top:14px}.home-hero{min-height:90svh;padding-top:170px}}
+@media(max-width:600px){body>header .brand{font-size:25px}body>header nav a{font-size:9px}.home-hero{padding-top:190px}}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<br>わたしの再生は、静かに始まる</p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
