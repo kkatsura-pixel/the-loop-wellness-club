@@ -46,6 +46,16 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 /* PHILOSOPHY: warm ivory with shadow-only imagery; typography and layout unchanged */
 .home-philosophy{background:#f5f2ec url('../assets/IMG_4868.png') left top / cover no-repeat}
 .home-philosophy:before{display:none}
+
+/* HOME SERVICES typography alignment — scoped; approved HERO/PHILOSOPHY untouched */
+.home-services .service-tile{padding:clamp(25px,2.7vw,42px);justify-content:flex-end;align-items:stretch}
+.home-services .service-tile:after{background:linear-gradient(180deg,transparent 24%,rgba(13,22,18,.10) 43%,rgba(12,21,17,.74) 100%)}
+.home-services .service-tile .eyebrow{font-family:'Noto Sans JP',sans-serif;font-size:clamp(9px,.75vw,11px);font-weight:300;letter-spacing:.21em;line-height:1.6;min-height:1.6em}
+.home-services .service-tile h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(34px,3.35vw,56px);line-height:.99;letter-spacing:.012em;margin:clamp(15px,1.7vw,24px) 0 clamp(24px,2.4vw,36px);overflow-wrap:normal}
+.home-services .service-tile p{font-family:'Noto Serif JP','Yu Mincho',serif;font-size:clamp(12px,.98vw,15px);font-weight:400;letter-spacing:.055em;line-height:1.85;margin:0 0 12px}
+.home-services .service-tile small{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(15px,1.18vw,19px);font-weight:400;letter-spacing:.012em;line-height:1.35;min-height:2.7em}
+@media(max-width:850px){.home-services .service-tile{padding:clamp(28px,6vw,46px)}.home-services .service-tile h3{font-size:clamp(44px,8vw,70px)}.home-services .service-tile p{font-size:clamp(13px,2.1vw,16px)}.home-services .service-tile small{font-size:clamp(17px,2.5vw,21px)}}
+@media(max-width:600px){.home-services .service-tile h3{font-size:clamp(42px,10vw,58px)}.home-services .service-tile small{min-height:0}}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
