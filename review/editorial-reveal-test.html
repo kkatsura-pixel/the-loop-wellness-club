@@ -185,11 +185,30 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  93%{transform:translate3d(-1.8px,1.6px,0) rotate(-.18deg) scale(1.035)}
 }
 
-/* EDITORIAL REVEAL PROTOTYPE — scoped to this test page only */
+/* EDITORIAL REVEAL V2 — three distinct editorial hierarchies */
 @media(prefers-reduced-motion:no-preference){
- .editorial-reveal{opacity:1;transform:none}
- .editorial-reveal.editorial-pending{opacity:0;transform:translate3d(0,32px,0);transition:opacity 1.55s cubic-bezier(.22,1,.36,1),transform 1.8s cubic-bezier(.22,1,.36,1);transition-delay:var(--editorial-delay,0ms)}
+ .editorial-reveal.editorial-pending{opacity:0;transform:translate3d(0,20px,0);transition:opacity 1.65s cubic-bezier(.22,1,.36,1),transform 1.85s cubic-bezier(.22,1,.36,1);transition-delay:var(--editorial-delay,0ms)}
  .editorial-reveal.editorial-pending.editorial-visible{opacity:1;transform:translate3d(0,0,0)}
+ /* Philosophy triptych: each word arrives a full second after the previous. */
+ .three-words .editorial-word.editorial-pending{opacity:0;transform:translate3d(0,12px,0);transition:opacity 2.4s cubic-bezier(.22,1,.36,1),transform 2.4s cubic-bezier(.22,1,.36,1);transition-delay:var(--editorial-delay,0ms)}
+ .three-words .editorial-word.editorial-pending.editorial-visible{opacity:1;transform:translate3d(0,0,0)}
+ /* Three service photographs form one cinematic sequence. */
+ .home-services .service-tile.editorial-service{opacity:1;transform:none}
+ .home-services .service-tile.editorial-service img{transition:filter 2.6s cubic-bezier(.22,1,.36,1),opacity 2.6s cubic-bezier(.22,1,.36,1),transform 9s ease}
+ .home-services .service-tile.editorial-service.editorial-pending img{filter:brightness(.55) saturate(.65) blur(5px);opacity:.68}
+ .home-services .service-tile.editorial-service.editorial-visible img{filter:brightness(1) saturate(1) blur(0);opacity:1;transition-delay:var(--editorial-delay,0ms)}
+ .home-services .service-tile.editorial-service h3,
+ .home-services .service-tile.editorial-service .eyebrow,
+ .home-services .service-tile.editorial-service p,
+ .home-services .service-tile.editorial-service small{transition:opacity 1.9s cubic-bezier(.22,1,.36,1),transform 2.1s cubic-bezier(.22,1,.36,1);transition-delay:calc(var(--editorial-delay,0ms) + 850ms)}
+ .home-services .service-tile.editorial-service.editorial-pending h3,
+ .home-services .service-tile.editorial-service.editorial-pending .eyebrow,
+ .home-services .service-tile.editorial-service.editorial-pending p,
+ .home-services .service-tile.editorial-service.editorial-pending small{opacity:0;transform:translateY(12px)}
+ .home-services .service-tile.editorial-service.editorial-visible h3,
+ .home-services .service-tile.editorial-service.editorial-visible .eyebrow,
+ .home-services .service-tile.editorial-service.editorial-visible p,
+ .home-services .service-tile.editorial-service.editorial-visible small{opacity:1;transform:translateY(0)}
 }
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
@@ -229,38 +248,36 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  observer.observe(heading);
 })();
 </script><script>
-/* Scroll-based editorial reveal. Content remains visible if JS is unavailable. */
+/* Scroll-based editorial reveal: hierarchy A general copy, B philosophy, C services. */
 (function(){
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
- const targets=[
+ const targets=[];
+ const add=(el,kind,delay)=>{
+  el.classList.add(kind);
+  el.style.setProperty('--editorial-delay',delay+'ms');
+  targets.push(el);
+ };
+ const general=[
  ['.home-philosophy h2',0],['.home-philosophy>p',180],
- ['.home-philosophy .three-words>div',120],
- ['.home-services .service-tile h3',0],['.home-services .service-tile p',130],
- ['.home-space .space-copy h2',0],['.home-space .space-copy p',160],
+ ['.home-space .space-copy h2',0],['.home-space .space-copy p',180],
  ['.nature h2',0],['.nature p',180],
- ['.home-invite h2:not(.trial-heading)',0],['.home-invite p',160],
- ['.home-bottom h2',0],['.home-bottom article p',140]
+ ['.home-invite h2:not(.trial-heading)',0],['.home-invite p',180],
+ ['.home-bottom h2',0],['.home-bottom article p',160]
  ];
- const nodes=[];
- for(const [selector,delay] of targets){
-  document.querySelectorAll(selector).forEach((el,i)=>{
-   el.classList.add('editorial-reveal');
-   el.style.setProperty('--editorial-delay',(delay+(selector.includes('three-words')?i*140:0))+'ms');
-   nodes.push(el);
-  });
- }
+ for(const [selector,delay] of general)document.querySelectorAll(selector).forEach(el=>add(el,'editorial-reveal',delay));
+ document.querySelectorAll('.home-philosophy .three-words>div').forEach((el,i)=>add(el,'editorial-word',i*1000));
+ document.querySelectorAll('.home-services .service-tile').forEach((el,i)=>add(el,'editorial-service',i*700));
  const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
    if(!entry.isIntersecting)return;
    entry.target.classList.add('editorial-visible');
    observer.unobserve(entry.target);
   });
- },{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+ },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
  requestAnimationFrame(()=>{
-  nodes.forEach(el=>{
-   if(el.getBoundingClientRect().top>window.innerHeight*.9)el.classList.add('editorial-pending');
+  targets.forEach(el=>{
+   if(el.getBoundingClientRect().top>window.innerHeight*.92)el.classList.add('editorial-pending');
   });
-  nodes.filter(el=>el.classList.contains('editorial-pending')).forEach(el=>observer.observe(el));
+  targets.filter(el=>el.classList.contains('editorial-pending')).forEach(el=>observer.observe(el));
  });
 })();
-</script></body></html>
