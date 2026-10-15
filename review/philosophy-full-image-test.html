@@ -153,6 +153,23 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 .home-philosophy>*{position:relative;z-index:2}
 @media(prefers-reduced-motion:reduce){.home-philosophy:after{animation:none!important}}
 
+/* Soft secondary leaf-shadow overlay — lighter than earlier prototype. */
+.home-philosophy:before{
+ display:block!important;content:"";position:absolute;inset:-8% -5%;z-index:2;pointer-events:none;
+ background:
+ radial-gradient(ellipse 12% 29% at 5% 18%,rgba(48,65,40,.15) 0%,rgba(48,65,40,.09) 42%,transparent 78%),
+ radial-gradient(ellipse 9% 25% at 17% 40%,rgba(48,65,40,.13) 0%,rgba(48,65,40,.07) 43%,transparent 79%),
+ radial-gradient(ellipse 11% 27% at 4% 68%,rgba(48,65,40,.14) 0%,rgba(48,65,40,.07) 42%,transparent 80%);
+ filter:blur(16px);opacity:.6;transform-origin:0% 15%;
+ animation:philosophy-soft-shadow-sway 31s ease-in-out infinite alternate;
+}
+.home-philosophy>*{z-index:3}
+@keyframes philosophy-soft-shadow-sway{
+ from{transform:translate3d(-8px,3px,0) rotate(-1.2deg) skewX(-1deg)}
+ to{transform:translate3d(13px,-5px,0) rotate(1.5deg) skewX(1.2deg)}
+}
+@media(prefers-reduced-motion:reduce){.home-philosophy:before{animation:none!important}}
+
 /* B refined: tiny irregular movement, long pauses, no light beam. */
 .home-philosophy:after{content:"";position:absolute;inset:-6% -4%;pointer-events:none;z-index:1;background:url('../assets/IMG_4868.png') left top/cover no-repeat;transform-origin:12% 12%;animation:whole-image-wind-natural 25s linear infinite;will-change:transform}
 @keyframes whole-image-wind-natural{
