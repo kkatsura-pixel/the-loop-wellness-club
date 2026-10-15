@@ -184,6 +184,16 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  86%{transform:translate3d(-1.8px,1.6px,0) rotate(-.18deg) scale(1.035)}
  93%{transform:translate3d(-1.8px,1.6px,0) rotate(-.18deg) scale(1.035)}
 }
+
+/* Approved Editorial Reveal: PHILOSOPHY three-word sequence only */
+@media(prefers-reduced-motion:no-preference){
+ .home-philosophy .three-words .editorial-word.editorial-pending{opacity:0;transform:translate3d(0,12px,0);animation:none!important;transition:none!important}
+ .home-philosophy .three-words .editorial-word.editorial-pending.editorial-visible{animation:editorial-word-appear 2.4s cubic-bezier(.22,1,.36,1) both!important;animation-delay:var(--editorial-delay,0ms)!important;transition:none!important}
+ @keyframes editorial-word-appear{
+  from{opacity:0;transform:translate3d(0,12px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+ }
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
@@ -220,5 +230,24 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  if(!('IntersectionObserver' in window)){show();return;}
  const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){show();observer.disconnect();}},{threshold:.45});
  observer.observe(heading);
+})();
+</script><script>
+/* Approved philosophy words: one group trigger, fixed 0/1/2-second order. */
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+ const group=document.querySelector('.home-philosophy .three-words');
+ if(!group)return;
+ const words=[...group.children].filter(el=>el.tagName==='DIV');
+ if(words.length!==3)return;
+ words.forEach((el,i)=>{
+  el.classList.add('editorial-word','editorial-pending');
+  el.style.setProperty('--editorial-delay',(i*1000)+'ms');
+ });
+ const observer=new IntersectionObserver(entries=>{
+  if(!entries.some(entry=>entry.isIntersecting))return;
+  words.forEach(el=>el.classList.add('editorial-visible'));
+  observer.disconnect();
+ },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
+ observer.observe(group);
 })();
 </script></body></html>
