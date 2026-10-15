@@ -127,16 +127,20 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  @keyframes motion-test-drift{from{transform:scale(1.025) translate(0,0)}to{transform:scale(1.09) translate(-1.2%,.8%)}}
 }
 
-/* LIGHT & SHADOW PROTOTYPE — PHILOSOPHY and NATURE only */
+/* LIGHT & SHADOW PROTOTYPE V2 — visible, slow moving natural light */
 @media (prefers-reduced-motion:no-preference) and (min-width:851px){
  .home-philosophy{isolation:isolate}
- .home-philosophy::after{content:"";position:absolute;inset:-12%;z-index:0;pointer-events:none;opacity:.38;background:radial-gradient(ellipse 36% 65% at 13% 25%,rgba(77,92,64,.20),transparent 75%),radial-gradient(ellipse 27% 60% at 80% 70%,rgba(85,98,75,.12),transparent 80%);filter:blur(35px);animation:light-shadow-philosophy 24s ease-in-out infinite alternate}
+ .home-philosophy::after{content:"";position:absolute;inset:-12% -22%;z-index:0;pointer-events:none;opacity:.88;
+  background:linear-gradient(111deg,transparent 14%,rgba(75,83,56,.21) 23%,rgba(62,75,51,.34) 28%,transparent 37%,rgba(255,255,242,.39) 45%,transparent 54%,rgba(70,79,52,.26) 62%,transparent 72%);
+  filter:blur(23px);transform:translateX(-24%);animation:light-shadow-philosophy-v2 14s ease-in-out infinite alternate}
  .home-philosophy>*{position:relative;z-index:1}
  .nature{isolation:isolate;overflow:hidden}
- .nature::after{content:"";position:absolute;inset:-16%;z-index:0;pointer-events:none;background:radial-gradient(ellipse 30% 85% at 12% 25%,rgba(0,0,0,.32),transparent 82%),radial-gradient(ellipse 28% 78% at 84% 62%,rgba(255,248,216,.12),transparent 80%);filter:blur(38px);animation:light-shadow-nature 22s ease-in-out infinite alternate}
+ .nature::after{content:"";position:absolute;inset:-12% -24%;z-index:0;pointer-events:none;opacity:.95;
+  background:linear-gradient(108deg,rgba(5,18,9,.38) 10%,transparent 26%,rgba(255,250,212,.26) 41%,rgba(255,250,216,.09) 47%,transparent 59%,rgba(5,18,9,.34) 77%,transparent 90%);
+  filter:blur(26px);transform:translateX(-22%);animation:light-shadow-nature-v2 16s ease-in-out infinite alternate}
  .nature>*{position:relative;z-index:1}
- @keyframes light-shadow-philosophy{from{transform:translate3d(-24px,8px,0) rotate(-2deg)}to{transform:translate3d(34px,-16px,0) rotate(3deg)}}
- @keyframes light-shadow-nature{from{transform:translate3d(-35px,8px,0)}to{transform:translate3d(40px,-18px,0)}}
+ @keyframes light-shadow-philosophy-v2{from{transform:translateX(-24%)}to{transform:translateX(24%)}}
+ @keyframes light-shadow-nature-v2{from{transform:translateX(-22%)}to{transform:translateX(22%)}}
 }
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
