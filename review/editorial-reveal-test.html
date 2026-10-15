@@ -189,9 +189,13 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 @media(prefers-reduced-motion:no-preference){
  .editorial-reveal.editorial-pending{opacity:0;transform:translate3d(0,20px,0);transition:opacity 1.65s cubic-bezier(.22,1,.36,1),transform 1.85s cubic-bezier(.22,1,.36,1);transition-delay:var(--editorial-delay,0ms)}
  .editorial-reveal.editorial-pending.editorial-visible{opacity:1;transform:translate3d(0,0,0)}
- /* Philosophy triptych: each word arrives a full second after the previous. */
- .three-words .editorial-word.editorial-pending{opacity:0;transform:translate3d(0,12px,0);transition:opacity 2.4s cubic-bezier(.22,1,.36,1),transform 2.4s cubic-bezier(.22,1,.36,1);transition-delay:var(--editorial-delay,0ms)}
- .three-words .editorial-word.editorial-pending.editorial-visible{opacity:1;transform:translate3d(0,0,0)}
+ /* A single ordered timeline, triggered once by the entire three-word group. */
+ .home-philosophy .three-words .editorial-word.editorial-pending{opacity:0;transform:translate3d(0,12px,0);animation:none!important;transition:none!important}
+ .home-philosophy .three-words .editorial-word.editorial-pending.editorial-visible{animation:editorial-word-appear 2.4s cubic-bezier(.22,1,.36,1) both!important;animation-delay:var(--editorial-delay,0ms)!important;transition:none!important}
+ @keyframes editorial-word-appear{
+  from{opacity:0;transform:translate3d(0,12px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+ }
  /* Three service photographs form one cinematic sequence. */
  .home-services .service-tile.editorial-service{opacity:1;transform:none}
  .home-services .service-tile.editorial-service img{transition:filter 2.6s cubic-bezier(.22,1,.36,1),opacity 2.6s cubic-bezier(.22,1,.36,1),transform 9s ease}
