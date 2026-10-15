@@ -199,6 +199,8 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 @media(prefers-reduced-motion:no-preference){
 /* CINEMATIC TRIPTYCH — a unified left-to-right curtain reveal */
  .home-services .service-tile.triptych-tile{opacity:1;transform:none;isolation:isolate}
+/* Preserve the original dark readability gradient beneath the triptych curtain. */
+ .home-services .service-tile.triptych-tile::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,transparent 24%,rgba(13,22,18,.10) 43%,rgba(12,21,17,.74) 100%)}
  .home-services .service-tile.triptych-tile::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--paper,#f5f3ee);transform:scaleX(0);transform-origin:right center}
  .home-services .service-tile.triptych-tile.triptych-pending::after{transform:scaleX(1)}
  .home-services .service-tile.triptych-tile.triptych-active::after{animation:triptych-curtain 2.5s cubic-bezier(.76,0,.2,1) both;animation-delay:var(--triptych-delay,0ms)}
