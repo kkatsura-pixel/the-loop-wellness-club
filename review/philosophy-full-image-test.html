@@ -165,8 +165,10 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 }
 .home-philosophy>*{z-index:3}
 @keyframes philosophy-soft-shadow-sway{
- from{transform:translate3d(-8px,3px,0) rotate(-1.2deg) skewX(-1deg)}
- to{transform:translate3d(13px,-5px,0) rotate(1.5deg) skewX(1.2deg)}
+ 0%{transform:translate3d(-19px,8px,0) rotate(-3.2deg) skewX(-2deg) scale(.97,1.03)}
+ 38%{transform:translate3d(11px,-6px,0) rotate(1.8deg) skewX(2.2deg) scale(1.04,.96)}
+ 62%{transform:translate3d(7px,-3px,0) rotate(.9deg) skewX(1deg) scale(1.02,.98)}
+ 100%{transform:translate3d(27px,-12px,0) rotate(4.2deg) skewX(-1.5deg) scale(.96,1.06)}
 }
 @media(prefers-reduced-motion:reduce){.home-philosophy:before{animation:none!important}}
 
