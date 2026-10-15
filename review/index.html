@@ -126,6 +126,26 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  @keyframes motion-test-rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
  @keyframes motion-test-drift{from{transform:scale(1.025) translate(0,0)}to{transform:scale(1.09) translate(-1.2%,.8%)}}
 }
+/* HERO LIGHT BEAM TEST — isolated from production */
+@media (prefers-reduced-motion:no-preference) and (min-width:851px){
+ .home-hero{isolation:isolate}
+ .home-hero::after{
+  content:"";position:absolute;inset:-28% -15%;z-index:-1;pointer-events:none;
+  background:linear-gradient(142deg,
+   transparent 25%,rgba(255,244,207,0) 34%,
+   rgba(255,246,211,.11) 39%,rgba(255,249,225,.25) 44%,
+   rgba(255,253,234,.34) 48%,rgba(255,248,217,.17) 53%,
+   rgba(255,243,202,0) 61%,transparent 72%);
+  filter:blur(29px);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,transparent 35%,rgba(0,0,0,.35) 47%,#000 66%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,transparent 35%,rgba(0,0,0,.35) 47%,#000 66%,#000 100%);
+  animation:hero-sunbeam-sweep 20s ease-in-out infinite alternate;
+ }
+ @keyframes hero-sunbeam-sweep{
+  from{transform:translate3d(-11%,-7%,0);opacity:.38}
+  to{transform:translate3d(9%,9%,0);opacity:1}
+ }
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
