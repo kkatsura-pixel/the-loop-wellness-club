@@ -266,13 +266,15 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  ];
  for(const [selector,delay] of general)document.querySelectorAll(selector).forEach(el=>add(el,'editorial-reveal',delay));
  const words=[...document.querySelectorAll('.home-philosophy .three-words>div')];
- words.forEach((el,i)=>add(el,'editorial-word',i*1000));
+ words.forEach((el,i)=>{add(el,'editorial-word',i*1000);el.classList.add('editorial-pending');});
+ const wordGroup=document.querySelector('.home-philosophy .three-words');
  document.querySelectorAll('.home-services .service-tile').forEach((el,i)=>add(el,'editorial-service',i*700));
  const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
    if(!entry.isIntersecting)return;
-   if(words.includes(entry.target)){
-    words.forEach(word=>{word.classList.add('editorial-visible');observer.unobserve(word);});
+   if(entry.target===wordGroup){
+    words.forEach(word=>word.classList.add('editorial-visible'));
+    observer.unobserve(wordGroup);
    }else{
     entry.target.classList.add('editorial-visible');
     observer.unobserve(entry.target);
@@ -284,7 +286,7 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
    if(el.getBoundingClientRect().top>window.innerHeight*.92)el.classList.add('editorial-pending');
   });
   targets.filter(el=>el.classList.contains('editorial-pending')&&!words.includes(el)).forEach(el=>observer.observe(el));
-  if(words.some(el=>el.classList.contains('editorial-pending')))observer.observe(words[0]);
+  if(wordGroup&&words.length)observer.observe(wordGroup);
  });
 })();
 </script></body></html>
