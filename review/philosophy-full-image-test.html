@@ -153,9 +153,19 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 .home-philosophy>*{position:relative;z-index:2}
 @media(prefers-reduced-motion:reduce){.home-philosophy:after{animation:none!important}}
 
-/* B: original full background photo moves as one layer. */
-.home-philosophy:after{content:"";position:absolute;inset:-6% -4%;pointer-events:none;z-index:1;background:url('../assets/IMG_4868.png') left top/cover no-repeat;transform-origin:12% 12%;animation:whole-image-wind 32s ease-in-out infinite alternate}
-@keyframes whole-image-wind{0%{transform:translate(-13px,5px) rotate(-1.5deg) skewX(-1deg) scale(1.025)}50%{transform:translate(9px,-4px) rotate(.6deg) skewX(1deg) scale(1.035)}100%{transform:translate(23px,-10px) rotate(2deg) skewX(-.8deg) scale(1.04)}}
+/* B revised: extremely slow, irregular wind drift; no mechanical alternate loop. */
+.home-philosophy:after{content:"";position:absolute;inset:-6% -4%;pointer-events:none;z-index:1;background:url('../assets/IMG_4868.png') left top/cover no-repeat;transform-origin:12% 12%;animation:whole-image-wind-natural 105s linear infinite;will-change:transform}
+@keyframes whole-image-wind-natural{
+ 0%,100%{transform:translate3d(0,0,0) rotate(0deg) skewX(0deg) scale(1.035)}
+ 13%{transform:translate3d(3px,-1px,0) rotate(.12deg) skewX(.10deg) scale(1.036)}
+ 22%{transform:translate3d(3.5px,-1px,0) rotate(.14deg) skewX(.11deg) scale(1.036)}
+ 37%{transform:translate3d(-2px,2px,0) rotate(-.13deg) skewX(-.16deg) scale(1.037)}
+ 45%{transform:translate3d(-2.2px,2px,0) rotate(-.14deg) skewX(-.15deg) scale(1.037)}
+ 61%{transform:translate3d(5px,-2px,0) rotate(.22deg) skewX(.18deg) scale(1.038)}
+ 73%{transform:translate3d(5.3px,-2px,0) rotate(.24deg) skewX(.19deg) scale(1.038)}
+ 86%{transform:translate3d(-1px,1px,0) rotate(-.06deg) skewX(-.09deg) scale(1.036)}
+ 93%{transform:translate3d(-1px,1px,0) rotate(-.06deg) skewX(-.09deg) scale(1.036)}
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
