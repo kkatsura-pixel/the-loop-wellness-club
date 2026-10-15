@@ -146,6 +146,44 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
   to{transform:translate3d(9%,9%,0);opacity:1}
  }
 }
+/* PHILOSOPHY — approved background drift and moving soft shadow */
+.home-philosophy{background:#f5f2ec!important;isolation:isolate}
+.home-philosophy:before{display:none!important}
+.home-philosophy>*{position:relative;z-index:2}
+@media(prefers-reduced-motion:reduce){.home-philosophy:after{animation:none!important}}
+
+/* Secondary moving leaf-shadow layer */
+.home-philosophy:before{
+ display:block!important;content:"";position:absolute;inset:-8% -5%;z-index:2;pointer-events:none;
+ background:
+ radial-gradient(ellipse 18% 33% at 5% 18%,rgba(48,65,40,.46) 0%,rgba(48,65,40,.34) 42%,transparent 78%),
+ radial-gradient(ellipse 15% 29% at 17% 40%,rgba(48,65,40,.34) 0%,rgba(48,65,40,.25) 43%,transparent 79%),
+ radial-gradient(ellipse 17% 32% at 4% 68%,rgba(48,65,40,.43) 0%,rgba(48,65,40,.25) 42%,transparent 80%);
+ filter:blur(12px);opacity:.96;transform-origin:0% 15%;
+ animation:philosophy-soft-shadow-sway 31s ease-in-out infinite alternate;
+}
+.home-philosophy>*{z-index:3}
+@keyframes philosophy-soft-shadow-sway{
+ 0%{transform:translate3d(-19px,8px,0) rotate(-3.2deg) skewX(-2deg) scale(.97,1.03)}
+ 38%{transform:translate3d(11px,-6px,0) rotate(1.8deg) skewX(2.2deg) scale(1.04,.96)}
+ 62%{transform:translate3d(7px,-3px,0) rotate(.9deg) skewX(1deg) scale(1.02,.98)}
+ 100%{transform:translate3d(27px,-12px,0) rotate(4.2deg) skewX(-1.5deg) scale(.96,1.06)}
+}
+@media(prefers-reduced-motion:reduce){.home-philosophy:before{animation:none!important}}
+
+/* Original background image motion */
+.home-philosophy:after{content:"";position:absolute;inset:-6% -4%;pointer-events:none;z-index:1;background:url('../assets/IMG_4868.png') left top/cover no-repeat;transform-origin:12% 12%;animation:whole-image-wind-natural 25s linear infinite;will-change:transform}
+@keyframes whole-image-wind-natural{
+ 0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1.035)}
+ 13%{transform:translate3d(5px,-1.8px,0) rotate(.29deg) scale(1.035)}
+ 22%{transform:translate3d(5px,-1.8px,0) rotate(.29deg) scale(1.035)}
+ 37%{transform:translate3d(-3.8px,3px,0) rotate(-.33deg) scale(1.035)}
+ 45%{transform:translate3d(-3.8px,3px,0) rotate(-.33deg) scale(1.035)}
+ 61%{transform:translate3d(7.5px,-3.6px,0) rotate(.45deg) scale(1.035)}
+ 73%{transform:translate3d(7.5px,-3.6px,0) rotate(.45deg) scale(1.035)}
+ 86%{transform:translate3d(-1.8px,1.6px,0) rotate(-.18deg) scale(1.035)}
+ 93%{transform:translate3d(-1.8px,1.6px,0) rotate(-.18deg) scale(1.035)}
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
