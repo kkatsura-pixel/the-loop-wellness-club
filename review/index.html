@@ -194,10 +194,34 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
   to{opacity:1;transform:translate3d(0,0,0)}
  }
 }
+
+/* Approved service triptych only */
+@media(prefers-reduced-motion:no-preference){
+/* CINEMATIC TRIPTYCH — a unified left-to-right curtain reveal */
+ .home-services .service-tile.triptych-tile{opacity:1;transform:none;isolation:isolate}
+ .home-services .service-tile.triptych-tile::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--paper,#f5f3ee);transform:scaleX(0);transform-origin:right center}
+ .home-services .service-tile.triptych-tile.triptych-pending::after{transform:scaleX(1)}
+ .home-services .service-tile.triptych-tile.triptych-active::after{animation:triptych-curtain 2.5s cubic-bezier(.76,0,.2,1) both;animation-delay:var(--triptych-delay,0ms)}
+ @keyframes triptych-curtain{0%{transform:scaleX(1);transform-origin:right center}100%{transform:scaleX(0);transform-origin:right center}}
+ .home-services .service-tile.triptych-tile img{transition:transform 4.8s cubic-bezier(.22,1,.36,1);transform:scale(1)}
+ .home-services .service-tile.triptych-tile.triptych-pending img{transform:scale(1.065)}
+ .home-services .service-tile.triptych-tile.triptych-active img{transform:scale(1);transition-delay:var(--triptych-delay,0ms)}
+ .home-services .service-tile.triptych-tile h3 .title-line{display:block;overflow:hidden;line-height:1.05;padding-bottom:.08em}
+ .home-services .service-tile.triptych-tile h3 .title-line>span{display:block;transform:translate3d(0,115%,0);opacity:0}
+ .home-services .service-tile.triptych-tile.triptych-active h3 .title-line>span{animation:triptych-title-line 1.45s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--triptych-delay,0ms) + 1.55s)}
+ .home-services .service-tile.triptych-tile.triptych-active h3 .title-line:nth-child(2)>span{animation-delay:calc(var(--triptych-delay,0ms) + 1.95s)}
+ @keyframes triptych-title-line{from{transform:translate3d(0,115%,0);opacity:0}to{transform:translate3d(0,0,0);opacity:1}}
+ .home-services .service-tile.triptych-tile :is(.eyebrow,p,small){transition:opacity 1.75s ease;transition-delay:calc(var(--triptych-delay,0ms) + 2.35s)}
+ .home-services .service-tile.triptych-tile.triptych-pending :is(.eyebrow,p,small){opacity:0}
+ .home-services .service-tile.triptych-tile.triptych-active :is(.eyebrow,p,small){opacity:1}
+ .home-services .service-tile.triptych-tile.triptych-active p{transition-delay:calc(var(--triptych-delay,0ms) + 2.55s)}
+ .home-services .service-tile.triptych-tile.triptych-active small{transition-delay:calc(var(--triptych-delay,0ms) + 2.85s)}
+
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
-<section class="home-services"><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4939.png"><span class="eyebrow">WELLNESS SCREENING</span><h3>WELLNESS<br>SCREENING</h3><p>知性が、わたしを美しくする</p><small>A Wellness Screening powered by AI-driven wellness science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="../assets/IMG_4881.png"><span class="eyebrow">BEAUTY CONDITIONING</span><h3>BEAUTY<br>CONDITIONING</h3><p>整うほどに、強く、美しく</p><small>Beauty Conditioning powered by performance science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4886.png"><span class="eyebrow">SOCIAL ACTIVITY</span><h3>SOCIAL<br>ACTIVITY</h3><p>わたしは、わたしへ還っていく</p><small>Social Activities curated through Urban Nature Co-living</small></a></section>
+<section class="home-services"><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4939.png"><span class="eyebrow">WELLNESS SCREENING</span><h3><span class="title-line"><span>WELLNESS</span></span><span class="title-line"><span>SCREENING</span></span></h3><p>知性が、わたしを美しくする</p><small>A Wellness Screening powered by AI-driven wellness science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="../assets/IMG_4881.png"><span class="eyebrow">BEAUTY CONDITIONING</span><h3><span class="title-line"><span>BEAUTY</span></span><span class="title-line"><span>CONDITIONING</span></span></h3><p>整うほどに、強く、美しく</p><small>Beauty Conditioning powered by performance science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4886.png"><span class="eyebrow">SOCIAL ACTIVITY</span><h3><span class="title-line"><span>SOCIAL</span></span><span class="title-line"><span>ACTIVITY</span></span></h3><p>わたしは、わたしへ還っていく</p><small>Social Activities curated through Urban Nature Co-living</small></a></section>
 <section class="home-space"><div class="space-image" role="img" aria-label="THE LOOPの実際の施設写真"></div><div class="space-copy"><h2>BODY<br>DESIGN<br><span style="font-size:.55em;letter-spacing:.15em">TO</span><br>LIFESTYLE<br>DESIGN</h2><p>ゆるめて・ととのえて・うごく<br>あなた本来の美しさへと導くプログラム</p><a href="access.html">VIEW MORE →</a></div></section>
 <section class="nature"><div><h2>SOCIAL WELLNESS<br>EXPERIENCE</h2><p>自然と、人と、そして、わたし<br>すべてがつながり、巡っていく</p></div><div><p>日常を離れ、自然の中で呼吸し、<br>人と出会い、心が動く体験を。<br>ウェルネスは、ひとりで完結するものではなく、<br>人や自然とのつながりの中で、<br>より深く、豊かに育まれていきます。</p></div></section>
 <section class="home-invite"><div><span class="eyebrow">MEMBERSHIP</span><h2>BY INVITATION ONLY</h2><p>原則ご紹介制<br>毎月2名様のみ、一般開放</p><p>THE LOOPは、ライフスタイルデザインを軸に、身体・自然・人<br>そして今と未来のつながりを育むソーシャルウェルネスクラブです</p></div><div><span class="eyebrow">WELLNESS SCREENING &amp; BEAUTY CONDITIONING</span><h2 class="trial-heading">TWO <span style="font-family:Arial,sans-serif;font-size:.65em;vertical-align:.12em">−</span> TRIAL<br><span class="trial-gold">Privilege</span></h2><p>2トライアルチケット ¥11,000</p><a class="trial-invitation-link" href="invitation.html">REQUEST AN INVITATION →</a></div></section>
@@ -246,6 +270,22 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
   words.forEach(el=>el.classList.add('editorial-visible'));
+  observer.disconnect();
+ },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
+ observer.observe(group);
+})();
+</script><script>
+/* Approved service triptych: one trigger, fixed left-to-right delays. */
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+ const group=document.querySelector('.home-services');
+ if(!group)return;
+ const tiles=[...group.querySelectorAll('.service-tile')];
+ if(tiles.length!==3)return;
+ tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
+ const observer=new IntersectionObserver(entries=>{
+  if(!entries.some(entry=>entry.isIntersecting))return;
+  tiles.forEach(el=>el.classList.add('triptych-active'));
   observer.disconnect();
  },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
  observer.observe(group);
