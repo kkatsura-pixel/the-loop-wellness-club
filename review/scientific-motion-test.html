@@ -239,15 +239,15 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 
 /* SCIENTIFIC MOTION PROTOTYPE — an independent transparent scan layer.
    Does not modify source images, approved filters, gradients, or tile typography. */
-.home-services .service-tile:first-child .science-scan{position:absolute;left:58.5%;width:36.5%;top:18%;height:53%;z-index:1;pointer-events:none;overflow:hidden;opacity:0}
+.home-services .service-tile:first-child .science-scan{position:absolute;left:58.5%;width:36.5%;top:18%;height:62%;z-index:1;pointer-events:none;overflow:hidden;opacity:0}
 .home-services .service-tile:first-child .science-scan::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(226,244,237,.08) 25%,rgba(226,244,237,.65) 58%,transparent 96%);box-shadow:0 0 18px 3px rgba(214,241,230,.13);transform:translateY(-4px)}
 .home-services .service-tile:first-child .science-scan::after{content:"";position:absolute;left:0;right:0;top:-12%;height:22%;background:linear-gradient(180deg,transparent,rgba(211,239,229,.055) 47%,transparent);transform:translateY(0)}
 @media(prefers-reduced-motion:no-preference){
  .home-services .service-tile:first-child.triptych-active .science-scan{opacity:1;transition:opacity 1.8s ease 3.5s}
  .home-services .service-tile:first-child.triptych-active .science-scan::before{animation:science-line-pass 8.5s linear 3.7s infinite}
  .home-services .service-tile:first-child.triptych-active .science-scan::after{animation:science-haze-pass 8.5s linear 3.7s infinite}
- @keyframes science-line-pass{0%{transform:translateY(-4px);opacity:0}9%{opacity:.7}80%{opacity:.7}93%,100%{transform:translateY(360px);opacity:0}}
- @keyframes science-haze-pass{0%{transform:translateY(0);opacity:0}12%{opacity:.8}82%{opacity:.8}100%{transform:translateY(410px);opacity:0}}
+ @keyframes science-line-pass{0%{transform:translateY(-4px);opacity:0}9%{opacity:.7}80%{opacity:.7}93%,100%{top:100%;transform:translateY(0);opacity:0}}
+ @keyframes science-haze-pass{0%{transform:translateY(0);opacity:0}12%{opacity:.8}82%{opacity:.8}100%{top:100%;transform:translateY(0);opacity:0}}
 }
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
