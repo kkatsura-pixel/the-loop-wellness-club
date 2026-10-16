@@ -435,18 +435,22 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  io.observe(el);
 })();
 </script><script>
-/* Video test: show status so iPad playback failures can be distinguished from visibility issues. */
+/* iOS playback diagnosis: attempt on intersection and on user gesture. */
 (function(){
  const v=document.querySelector('.screening-test-video');if(!v)return;
- const tile=v.closest('.service-tile');v.muted=true;v.defaultMuted=true;v.playbackRate=.7;
- const status=document.createElement('span');status.setAttribute('aria-live','polite');status.style.cssText='position:absolute;left:10px;top:10px;z-index:8;padding:5px 8px;background:rgba(0,0,0,.55);color:white;font:11px Arial,sans-serif;pointer-events:none';status.textContent='VIDEO: loading';tile.appendChild(status);
- const update=()=>{status.textContent='VIDEO: '+(v.error?'error '+v.error.code:(v.paused?'paused':'playing'))+' / '+v.currentTime.toFixed(1)+'s';};
- v.addEventListener('loadeddata',()=>{tile.classList.add('video-ready');update()});
- v.addEventListener('playing',()=>{tile.classList.add('video-ready');update()});
- v.addEventListener('error',()=>{tile.classList.remove('video-ready');update()});
- v.addEventListener('pause',update);
- v.addEventListener('timeupdate',update);
- const play=()=>{v.playbackRate=.7;v.play().then(update).catch(e=>{status.textContent='VIDEO: '+e.name;});};
- if('IntersectionObserver' in window){new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)play();else{v.pause();update()}}},{threshold:.15}).observe(tile);}else play();
+ const tile=v.closest('.service-tile');
+ v.muted=true;v.defaultMuted=true;v.playsInline=true;v.playbackRate=.7;
+ const status=document.createElement('span');status.setAttribute('aria-live','polite');status.style.cssText='position:absolute;left:10px;top:10px;z-index:8;padding:5px 8px;background:rgba(0,0,0,.65);color:white;font:11px Arial,sans-serif;pointer-events:none';tile.appendChild(status);
+ const detail=msg=>{status.textContent='VIDEO: '+msg+' / '+v.currentTime.toFixed(1)+'s / ready='+v.readyState+' / network='+v.networkState;};
+ const attempt=()=>{v.muted=true;v.playbackRate=.7;const p=v.play();if(p&&p.catch)p.then(()=>detail('playing')).catch(e=>detail('play failed '+e.name));};
+ v.addEventListener('loadeddata',()=>{tile.classList.add('video-ready');detail('loaded');attempt()});
+ v.addEventListener('playing',()=>{tile.classList.add('video-ready');detail('playing')});
+ v.addEventListener('error',()=>detail('error '+(v.error?v.error.code:'unknown')));
+ v.addEventListener('timeupdate',()=>detail(v.paused?'paused':'playing'));
+ v.addEventListener('pause',()=>detail('paused'));
+ document.addEventListener('touchstart',()=>{if(v.paused)attempt()},{passive:true});
+ document.addEventListener('click',()=>{if(v.paused)attempt()});
+ if('IntersectionObserver' in window){new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)attempt();else{v.pause();detail('paused offscreen')}}},{threshold:.15}).observe(tile);}else attempt();
+ detail('initialized');
 })();
 </script></body></html>
