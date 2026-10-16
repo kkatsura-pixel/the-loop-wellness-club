@@ -278,6 +278,25 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  }
 }
 @media(prefers-reduced-motion:reduce){.nature>.forest-atmosphere{transform:none;opacity:.6}}
+/* iPad service-copy fade diagnostic prototype ONLY.
+   Replace transitions with explicit held-opacity keyframes on coarse-pointer tablets.
+   All image, curtain, title, photo filters and phone styles remain unchanged. */
+@media (min-width:768px) and (pointer:coarse) and (prefers-reduced-motion:no-preference){
+ .home-services .service-tile.triptych-tile.triptych-pending p,
+ .home-services .service-tile.triptych-tile.triptych-pending small{opacity:0}
+ .home-services .service-tile.triptych-tile.triptych-active p,
+ .home-services .service-tile.triptych-tile.triptych-active small{
+  opacity:0;transition:none!important;
+  animation:tablet-copy-fade 1.75s ease both;
+ }
+ .home-services .service-tile.triptych-tile.triptych-active p{
+  animation-delay:calc(var(--triptych-delay,0ms) + 3.15s)
+ }
+ .home-services .service-tile.triptych-tile.triptych-active small{
+  animation-delay:calc(var(--triptych-delay,0ms) + 3.65s)
+ }
+ @keyframes tablet-copy-fade{from{opacity:0}to{opacity:1}}
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
