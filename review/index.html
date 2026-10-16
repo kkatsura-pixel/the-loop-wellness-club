@@ -257,12 +257,33 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  @keyframes facility-cinematic-zoom{from{transform:scale(1.075)}to{transform:scale(1)}}
 }
 @media(prefers-reduced-motion:reduce){.home-space .space-image .facility-zoom-layer{transform:none}}
+/* STAGE B TEST ONLY — clearly visible atmospheric depth over the forest.
+   Original forest background/overlay, typography and other sections are untouched. */
+.nature{isolation:isolate;overflow:hidden}
+.nature>.forest-atmosphere{position:absolute;inset:-8% -22%;z-index:0;pointer-events:none;
+ background:
+ radial-gradient(ellipse 36% 42% at 17% 60%,rgba(232,241,225,.48) 0%,rgba(225,238,220,.27) 35%,transparent 74%),
+ radial-gradient(ellipse 39% 48% at 72% 42%,rgba(228,239,225,.42) 0%,rgba(228,239,225,.22) 38%,transparent 77%),
+ radial-gradient(ellipse 31% 32% at 45% 80%,rgba(232,241,227,.28) 0%,transparent 78%);
+ filter:blur(20px);opacity:.85;transform:translate3d(-9%,0,0);
+ will-change:transform,opacity}
+.nature>div{position:relative;z-index:1}
+@media(prefers-reduced-motion:no-preference){
+ .nature.forest-atmosphere-visible>.forest-atmosphere{
+  animation:forest-mist-drift 9s ease-in-out infinite alternate;
+ }
+ @keyframes forest-mist-drift{
+  from{transform:translate3d(-9%,1%,0);opacity:.48}
+  to{transform:translate3d(9%,-2%,0);opacity:.96}
+ }
+}
+@media(prefers-reduced-motion:reduce){.nature>.forest-atmosphere{transform:none;opacity:.6}}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
 <section class="home-services"><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4939.png"><span class="science-scan" aria-hidden="true"></span><h3><span class="title-line"><span>WELLNESS</span></span><span class="title-line"><span>SCREENING</span></span></h3><p>知性が、わたしを美しくする</p><small>A Wellness Screening powered by AI-driven wellness science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="../assets/IMG_4881.png"><h3><span class="title-line"><span>BEAUTY</span></span><span class="title-line"><span>CONDITIONING</span></span></h3><p>整うほどに、強く、美しく</p><small>Beauty Conditioning powered by performance science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4886.png"><h3><span class="title-line"><span>SOCIAL</span></span><span class="title-line"><span>ACTIVITY</span></span></h3><p>わたしは、わたしへ還っていく</p><small>Social Activities curated through Urban Nature Co-living</small></a></section>
 <section class="home-space"><div class="space-image" role="img" aria-label="THE LOOPの実際の施設写真"><span class="facility-zoom-layer" aria-hidden="true"></span></div><div class="space-copy"><h2><span class="body-title-part">BODY<br>DESIGN</span><span class="body-title-part"><span style="font-size:.55em;letter-spacing:.15em">TO</span></span><span class="body-title-part">LIFESTYLE<br>DESIGN</span></h2><p>ゆるめて・ととのえて・うごく<br>あなた本来の美しさへと導くプログラム</p><a href="access.html">VIEW MORE →</a></div></section>
-<section class="nature"><div><h2>SOCIAL WELLNESS<br>EXPERIENCE</h2><p>自然と、人と、そして、わたし<br>すべてがつながり、巡っていく</p></div><div><p>日常を離れ、自然の中で呼吸し、<br>人と出会い、心が動く体験を。<br>ウェルネスは、ひとりで完結するものではなく、<br>人や自然とのつながりの中で、<br>より深く、豊かに育まれていきます。</p></div></section>
+<section class="nature"><span class="forest-atmosphere" aria-hidden="true"></span><div><h2>SOCIAL WELLNESS<br>EXPERIENCE</h2><p>自然と、人と、そして、わたし<br>すべてがつながり、巡っていく</p></div><div><p>日常を離れ、自然の中で呼吸し、<br>人と出会い、心が動く体験を。<br>ウェルネスは、ひとりで完結するものではなく、<br>人や自然とのつながりの中で、<br>より深く、豊かに育まれていきます。</p></div></section>
 <section class="home-invite"><div><span class="eyebrow">MEMBERSHIP</span><h2>BY INVITATION ONLY</h2><p>原則ご紹介制<br>毎月2名様のみ、一般開放</p><p>THE LOOPは、ライフスタイルデザインを軸に、身体・自然・人<br>そして今と未来のつながりを育むソーシャルウェルネスクラブです</p></div><div><span class="eyebrow">WELLNESS SCREENING &amp; BEAUTY CONDITIONING</span><h2 class="trial-heading">TWO <span style="font-family:Arial,sans-serif;font-size:.65em;vertical-align:.12em">−</span> TRIAL<br><span class="trial-gold">Privilege</span></h2><p>2トライアルチケット ¥11,000</p><a class="trial-invitation-link" href="invitation.html">REQUEST AN INVITATION →</a></div></section>
 <section class="home-bottom"><article><div><span class="eyebrow">FOUNDER</span><h2>Koshiro Katsura</h2><p>Founder CEO<br><span class="founder-role-line">Social Wellness Designer™ | Performance</span><br><span class="founder-role-line">Specialist | Business CO-Design Partner</span></p><a href="founder.html">VIEW PROFILE →</a></div><img class="founder-photo-placeholder" src="IMG_4757.jpeg" alt="Founder Koshiro Katsuraのポートレート" loading="lazy"></article><article><div><span class="eyebrow">ACCESS</span><h2>FUKUOKA</h2><p>完全予約制<br>〒810-0021<br>福岡県福岡市中央区今泉1-17-16<br>プロスペリタ今泉Ⅲ 2階 BE NATURAL</p><a href="access.html">GOOGLE MAPS / ACCESS →</a></div><iframe title="THE LOOP Google Maps" loading="lazy" src="https://www.google.com/maps?q=%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E4%BB%8A%E6%B3%891-17-16&output=embed"></iframe></article></section></main><footer>THE LOOP — SOCIAL WELLNESS CLUB · FUKUOKA</footer><script>
 /* Align only VIEW PROFILE to the unchanged ACCESS link, including after font loading/resizing. */
@@ -370,5 +391,16 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
   if(entries.some(e=>e.isIntersecting)){photo.classList.add('facility-zoom-visible');observer.disconnect();}
  },{threshold:.18});
  observer.observe(photo);
+})();
+</script><script>
+/* Start atmospheric motion as soon as the forest enters the viewport. */
+(function(){
+ const el=document.querySelector('.nature');
+ if(!el||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ if(!('IntersectionObserver' in window)){el.classList.add('forest-atmosphere-visible');return;}
+ const io=new IntersectionObserver(entries=>{
+  if(entries.some(e=>e.isIntersecting)){el.classList.add('forest-atmosphere-visible');io.disconnect();}
+ },{threshold:.05});
+ io.observe(el);
 })();
 </script></body></html>
