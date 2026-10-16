@@ -249,13 +249,13 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  @keyframes science-haze-pass{0%{transform:translateY(0);opacity:0}12%{opacity:.8}82%{opacity:.8}100%{top:100%;transform:translateY(0);opacity:0}}
 }
 
-/* STAGE 5 / OPTION A PROTOTYPE ONLY.
-   Facility photo slow zoom; original photo filter remains on .space-image unchanged. */
+/* STAGE 5 / OPTION A PROTOTYPE — visible on-scroll cinematic zoom.
+   The approved parent image filter and all other sections remain unchanged. */
 .home-space .space-image{position:relative;overflow:hidden}
-.home-space .space-image .facility-zoom-layer{position:absolute;inset:0;background-image:inherit;background-position:inherit;background-size:inherit;background-repeat:inherit;pointer-events:none;transform:scale(1.02);transform-origin:center center}
+.home-space .space-image .facility-zoom-layer{position:absolute;inset:0;background-image:inherit;background-position:inherit;background-size:inherit;background-repeat:inherit;pointer-events:none;transform:scale(1.075);transform-origin:center center}
 @media(prefers-reduced-motion:no-preference){
- .home-space .space-image .facility-zoom-layer{animation:facility-cinematic-zoom 18s cubic-bezier(.22,1,.36,1) both}
- @keyframes facility-cinematic-zoom{from{transform:scale(1.02)}to{transform:scale(1)}}
+ .home-space .space-image.facility-zoom-visible .facility-zoom-layer{animation:facility-cinematic-zoom 12s ease-out both}
+ @keyframes facility-cinematic-zoom{from{transform:scale(1.075)}to{transform:scale(1)}}
 }
 @media(prefers-reduced-motion:reduce){.home-space .space-image .facility-zoom-layer{transform:none}}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
@@ -360,5 +360,16 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
   });
  },{threshold:0,rootMargin:'0px 0px -28% 0px'});
  targets.filter(el=>el.classList.contains('general-editorial-pending')).forEach(el=>observer.observe(el));
+})();
+</script><script>
+/* Start the facility-only zoom when the photograph enters the viewport. */
+(function(){
+ const photo=document.querySelector('.home-space .space-image');
+ if(!photo||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ if(!('IntersectionObserver' in window)){photo.classList.add('facility-zoom-visible');return;}
+ const observer=new IntersectionObserver(entries=>{
+  if(entries.some(e=>e.isIntersecting)){photo.classList.add('facility-zoom-visible');observer.disconnect();}
+ },{threshold:.18});
+ observer.observe(photo);
 })();
 </script></body></html>
