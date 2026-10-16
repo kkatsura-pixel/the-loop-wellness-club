@@ -258,21 +258,33 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 }
 @media(prefers-reduced-motion:reduce){.home-space .space-image .facility-zoom-layer{transform:none}}
 
-/* FOREST LIGHT / OPTION A — isolated prototype.
-   Original forest background, dark overlay, typography and layout are untouched. */
+/* FOREST LIGHT / OPTION A — second prototype: visible, soft canopy-shaped light.
+   Forest photo, existing dark overlay, text, and approved animations remain unchanged. */
 .nature{isolation:isolate}
-.nature>.forest-light-layer{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;background:
- radial-gradient(ellipse 28% 60% at 22% 9%,rgba(255,249,211,.16),transparent 75%),
- radial-gradient(ellipse 22% 52% at 72% 16%,rgba(246,244,205,.11),transparent 80%);
- mix-blend-mode:screen;transform:translate3d(-2%,0,0)}
+.nature>.forest-light-layer{
+ position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ opacity:0;
+ background:
+  radial-gradient(ellipse 14% 46% at 16% 5%,rgba(255,249,211,.30) 0%,rgba(255,248,208,.13) 48%,transparent 78%),
+  radial-gradient(ellipse 10% 42% at 34% 0%,rgba(255,248,212,.24) 0%,rgba(255,247,208,.11) 46%,transparent 78%),
+  radial-gradient(ellipse 13% 45% at 70% 6%,rgba(255,249,219,.29) 0%,rgba(255,249,219,.10) 48%,transparent 78%),
+  radial-gradient(ellipse 8% 35% at 84% 0%,rgba(255,248,210,.18),transparent 78%);
+ mix-blend-mode:screen;
+ transform:translate3d(-2.5%,0,0);
+ will-change:transform,opacity
+}
 .nature>div{position:relative;z-index:1}
 @media(prefers-reduced-motion:no-preference){
- .nature.forest-light-visible>.forest-light-layer{opacity:1;transition:opacity 3s ease;animation:forest-light-breathe 16s ease-in-out 3s infinite alternate}
+ .nature.forest-light-visible>.forest-light-layer{
+  opacity:.85;transition:opacity 1.5s ease;
+  animation:forest-light-breathe 7.5s ease-in-out 1.5s infinite alternate
+ }
  @keyframes forest-light-breathe{
-  0%{transform:translate3d(-2%,0,0);opacity:.65}
-  100%{transform:translate3d(2%,0,0);opacity:1}
+  from{transform:translate3d(-2.5%,0,0);opacity:.48}
+  to{transform:translate3d(2.5%,1%,0);opacity:1}
  }
 }
+@media(prefers-reduced-motion:reduce){.nature>.forest-light-layer{opacity:.55;transform:none}}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
