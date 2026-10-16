@@ -223,8 +223,8 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 
 /* PROTOTYPE ONLY: general-section editorial copy; approved sections untouched. */
 @media (prefers-reduced-motion:no-preference){
- .general-editorial-test.general-editorial-pending{opacity:0;transform:translate3d(0,18px,0);transition:opacity 1.65s cubic-bezier(.22,1,.36,1),transform 1.85s cubic-bezier(.22,1,.36,1);transition-delay:var(--general-editorial-delay,0ms)}
- .general-editorial-test.general-editorial-pending.general-editorial-visible{opacity:1;transform:translate3d(0,0,0)}
+ .general-editorial-test.general-editorial-pending{opacity:0;transform:translate3d(0,52px,0);filter:blur(3px);transition:opacity 1.35s cubic-bezier(.22,1,.36,1),transform 2.05s cubic-bezier(.22,1,.36,1),filter 1.55s ease;transition-delay:var(--general-editorial-delay,0ms)}
+ .general-editorial-test.general-editorial-pending.general-editorial-visible{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
 }
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
@@ -304,9 +304,9 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
  const pairs=[
   ['.home-philosophy h2',0],['.home-philosophy > p',200],
-  ['.home-space .space-copy h2',0],['.home-space .space-copy p',220],
-  ['.nature h2',0],['.nature p',220],
-  ['.home-invite h2:not(.trial-heading)',0],['.home-invite p',200],
+  ['.home-space .space-copy h2',0],['.home-space .space-copy p',350],
+  ['.nature h2',0],['.nature p',350],
+  ['.home-invite h2:not(.trial-heading)',0],['.home-invite p',350],
   ['.home-bottom h2',0],['.home-bottom article p',180]
  ];
  const targets=[];
@@ -318,20 +318,15 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
    targets.push(el);
   });
  }
+ /* Arm all below-the-fold text before it enters the reveal zone. */
+ targets.forEach(el=>{if(el.getBoundingClientRect().top>window.innerHeight*.55)el.classList.add('general-editorial-pending')});
  const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
    if(!entry.isIntersecting)return;
    entry.target.classList.add('general-editorial-visible');
    observer.unobserve(entry.target);
   });
- },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
- requestAnimationFrame(()=>{
-  targets.forEach(el=>{
-   if(el.getBoundingClientRect().top>window.innerHeight*.92){
-    el.classList.add('general-editorial-pending');
-    observer.observe(el);
-   }
-  });
- });
+ },{threshold:0,rootMargin:'0px 0px -28% 0px'});
+ targets.filter(el=>el.classList.contains('general-editorial-pending')).forEach(el=>observer.observe(el));
 })();
 </script></body></html>
