@@ -220,11 +220,27 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  .home-services .service-tile.triptych-tile.triptych-active small{transition-delay:calc(var(--triptych-delay,0ms) + 2.85s)}
 
 }
+/* Approved general-section editorial reveal. */
+@media (prefers-reduced-motion:no-preference){
+ .general-editorial-test.general-editorial-pending{opacity:0;transform:translate3d(0,52px,0);filter:blur(3px);transition:opacity 1.35s cubic-bezier(.22,1,.36,1),transform 2.05s cubic-bezier(.22,1,.36,1),filter 1.55s ease;transition-delay:var(--general-editorial-delay,0ms)}
+ .general-editorial-test.general-editorial-pending.general-editorial-visible{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+
+/* Approved three-part BODY DESIGN title stagger. */
+.home-space .space-copy h2 .body-title-part{display:block}
+@media (prefers-reduced-motion:no-preference){
+ .home-space .space-copy h2.general-editorial-pending{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+ .home-space .space-copy h2.general-editorial-pending .body-title-part{opacity:0;transform:translate3d(0,52px,0);filter:blur(3px);transition:opacity 1.35s cubic-bezier(.22,1,.36,1),transform 2.05s cubic-bezier(.22,1,.36,1),filter 1.55s ease;transition-delay:var(--body-part-delay,0ms)}
+ .home-space .space-copy h2.general-editorial-pending.general-editorial-visible .body-title-part{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+ .home-space .space-copy h2 .body-title-part:nth-child(1){--body-part-delay:0ms}
+ .home-space .space-copy h2 .body-title-part:nth-child(2){--body-part-delay:650ms}
+ .home-space .space-copy h2 .body-title-part:nth-child(3){--body-part-delay:1300ms}
+}
 </style></head><body><header><a class="brand" href="index.html" style="display:flex;flex-direction:column;gap:3px;line-height:1">THE LOOP<span style="font:300 9px 'Noto Sans JP',sans-serif;letter-spacing:.18em">SOCIAL WELLNESS CLUB</span></a><nav aria-label="Site navigation"><a href="index.html" aria-current="page">HOME</a><a href="about.html">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="access.html">ACCESS</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a></nav></header><main>
 <section class="hero home-hero"><div class="hero-photo"></div><span class="eyebrow">SOCIAL WELLNESS CLUB</span><p class="hero-sub">REGENERATIVE</p><p class="hero-caption">My rebirth begins in quiet hush.<span class="hero-caption-ja" lang="ja">わたしの再生は、静かに始まる</span></p></section>
 <section class="home-philosophy"><h2>SOCIAL WELLNESS DESIGN</h2><p>最先端のウェルネスサイエンスとパフォーマンスサイエンスを基盤に、<br>身体と精神の成熟をともに育む、<br>ライフパフォーマンスを高めるためのウェルネスクラブです</p><div class="three-words"><div><strong>知る</strong><small>から始まる、<br>丁寧な暮らし</small></div><div><strong>整える</strong><small>から始まる、<br>心身の余白</small></div><div><strong>繋がる</strong><small>から広がる、<br>豊かな人生</small></div></div></section>
 <section class="home-services"><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4939.png"><h3><span class="title-line"><span>WELLNESS</span></span><span class="title-line"><span>SCREENING</span></span></h3><p>知性が、わたしを美しくする</p><small>A Wellness Screening powered by AI-driven wellness science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="../assets/IMG_4881.png"><h3><span class="title-line"><span>BEAUTY</span></span><span class="title-line"><span>CONDITIONING</span></span></h3><p>整うほどに、強く、美しく</p><small>Beauty Conditioning powered by performance science</small></a><a class="service-tile" href="services.html"><img alt="" loading="lazy" src="IMG_4886.png"><h3><span class="title-line"><span>SOCIAL</span></span><span class="title-line"><span>ACTIVITY</span></span></h3><p>わたしは、わたしへ還っていく</p><small>Social Activities curated through Urban Nature Co-living</small></a></section>
-<section class="home-space"><div class="space-image" role="img" aria-label="THE LOOPの実際の施設写真"></div><div class="space-copy"><h2>BODY<br>DESIGN<br><span style="font-size:.55em;letter-spacing:.15em">TO</span><br>LIFESTYLE<br>DESIGN</h2><p>ゆるめて・ととのえて・うごく<br>あなた本来の美しさへと導くプログラム</p><a href="access.html">VIEW MORE →</a></div></section>
+<section class="home-space"><div class="space-image" role="img" aria-label="THE LOOPの実際の施設写真"></div><div class="space-copy"><h2><span class="body-title-part">BODY<br>DESIGN</span><span class="body-title-part"><span style="font-size:.55em;letter-spacing:.15em">TO</span></span><span class="body-title-part">LIFESTYLE<br>DESIGN</span></h2><p>ゆるめて・ととのえて・うごく<br>あなた本来の美しさへと導くプログラム</p><a href="access.html">VIEW MORE →</a></div></section>
 <section class="nature"><div><h2>SOCIAL WELLNESS<br>EXPERIENCE</h2><p>自然と、人と、そして、わたし<br>すべてがつながり、巡っていく</p></div><div><p>日常を離れ、自然の中で呼吸し、<br>人と出会い、心が動く体験を。<br>ウェルネスは、ひとりで完結するものではなく、<br>人や自然とのつながりの中で、<br>より深く、豊かに育まれていきます。</p></div></section>
 <section class="home-invite"><div><span class="eyebrow">MEMBERSHIP</span><h2>BY INVITATION ONLY</h2><p>原則ご紹介制<br>毎月2名様のみ、一般開放</p><p>THE LOOPは、ライフスタイルデザインを軸に、身体・自然・人<br>そして今と未来のつながりを育むソーシャルウェルネスクラブです</p></div><div><span class="eyebrow">WELLNESS SCREENING &amp; BEAUTY CONDITIONING</span><h2 class="trial-heading">TWO <span style="font-family:Arial,sans-serif;font-size:.65em;vertical-align:.12em">−</span> TRIAL<br><span class="trial-gold">Privilege</span></h2><p>2トライアルチケット ¥11,000</p><a class="trial-invitation-link" href="invitation.html">REQUEST AN INVITATION →</a></div></section>
 <section class="home-bottom"><article><div><span class="eyebrow">FOUNDER</span><h2>Koshiro Katsura</h2><p>Founder CEO<br><span class="founder-role-line">Social Wellness Designer™ | Performance</span><br><span class="founder-role-line">Specialist | Business CO-Design Partner</span></p><a href="founder.html">VIEW PROFILE →</a></div><img class="founder-photo-placeholder" src="IMG_4757.jpeg" alt="Founder Koshiro Katsuraのポートレート" loading="lazy"></article><article><div><span class="eyebrow">ACCESS</span><h2>FUKUOKA</h2><p>完全予約制<br>〒810-0021<br>福岡県福岡市中央区今泉1-17-16<br>プロスペリタ今泉Ⅲ 2階 BE NATURAL</p><a href="access.html">GOOGLE MAPS / ACCESS →</a></div><iframe title="THE LOOP Google Maps" loading="lazy" src="https://www.google.com/maps?q=%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E4%BB%8A%E6%B3%891-17-16&output=embed"></iframe></article></section></main><footer>THE LOOP — SOCIAL WELLNESS CLUB · FUKUOKA</footer><script>
@@ -291,5 +307,36 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
   observer.disconnect();
  },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
  observer.observe(group);
+})();
+</script><script>
+/* Approved ordinary text reveal; preserve philosophy words and service triptych. */
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+ const pairs=[
+  ['.home-philosophy h2',0],['.home-philosophy > p',200],
+  ['.home-space .space-copy h2',0],['.home-space .space-copy p',350],
+  ['.nature h2',0],['.nature p',350],
+  ['.home-invite h2:not(.trial-heading)',0],['.home-invite p',350],
+  ['.home-bottom h2',0],['.home-bottom article p',180]
+ ];
+ const targets=[];
+ for(const [selector,delay] of pairs){
+  document.querySelectorAll(selector).forEach(el=>{
+   if(el.closest('.home-services,.three-words'))return;
+   el.classList.add('general-editorial-test');
+   el.style.setProperty('--general-editorial-delay',delay+'ms');
+   targets.push(el);
+  });
+ }
+ /* Arm all below-the-fold text before it enters the reveal zone. */
+ targets.forEach(el=>{if(el.getBoundingClientRect().top>window.innerHeight*.55)el.classList.add('general-editorial-pending')});
+ const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   entry.target.classList.add('general-editorial-visible');
+   observer.unobserve(entry.target);
+  });
+ },{threshold:0,rootMargin:'0px 0px -28% 0px'});
+ targets.filter(el=>el.classList.contains('general-editorial-pending')).forEach(el=>observer.observe(el));
 })();
 </script></body></html>
