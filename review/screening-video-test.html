@@ -452,7 +452,7 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  v.addEventListener('seeked',()=>{if(v.currentTime+1<lastTime)loops++;lastTime=v.currentTime;show()});
  v.addEventListener('error',()=>{playError='error '+(v.error?v.error.code:'unknown');show()});
  document.addEventListener('touchstart',()=>{if(active&&v.paused)play()},{passive:true});
- function enterView(){if(initialDelayDone){play();return;}if(initialDelayTimer!==null)return;active=true;v.pause();show();initialDelayTimer=setTimeout(()=>{initialDelayTimer=null;if(!active)return;initialDelayDone=true;play()},1000)}
+ function enterView(){if(initialDelayDone){play();return;}if(initialDelayTimer!==null)return;active=true;v.pause();show();initialDelayTimer=setTimeout(()=>{initialDelayTimer=null;if(!active)return;initialDelayDone=true;play()},2000)}
  function leaveView(){active=false;if(initialDelayTimer!==null){clearTimeout(initialDelayTimer);initialDelayTimer=null;}v.pause();show()}
  if('IntersectionObserver' in window){new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)enterView();else leaveView()}},{threshold:.15}).observe(tile)}else enterView();
  show();
