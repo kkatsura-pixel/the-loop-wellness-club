@@ -309,6 +309,8 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 .home-services .service-tile:first-child .science-scan{z-index:2}
 .home-services .service-tile:first-child h3,.home-services .service-tile:first-child p,.home-services .service-tile:first-child small{position:relative;z-index:3}
 
+/* Smartphone-only headline weight refinement; iPad unchanged. */
+@media (max-width:600px){.home-hero .hero-sub{font-weight:500}}
 /* SMARTPHONE HERO TEST ONLY: do not change approved iPad presentation. */
 @media (max-width:600px){
  .home-hero .hero-photo{background-position:60% 36%}
