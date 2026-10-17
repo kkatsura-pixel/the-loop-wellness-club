@@ -308,6 +308,8 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 .home-services .service-tile:first-child.triptych-tile::before{z-index:1}
 .home-services .service-tile:first-child .science-scan{z-index:2}
 .home-services .service-tile:first-child h3,.home-services .service-tile:first-child p,.home-services .service-tile:first-child small{position:relative;z-index:3}
+/* Approved smartphone HERO text vertical offset, test-verified. */
+@media (max-width:600px){.home-hero>.eyebrow,.home-hero>.hero-sub,.home-hero>.hero-caption{position:relative;top:64px}}
 /* Approved smartphone HERO snapshot 2026-10-17: iPad styles untouched. */
 @media (max-width:600px){
  .home-hero .hero-photo{background-position:57% 36%}
