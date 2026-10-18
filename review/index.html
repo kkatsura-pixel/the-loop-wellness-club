@@ -263,6 +263,12 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
  @keyframes facility-cinematic-zoom{from{transform:scale(1.075)}to{transform:scale(1)}}
 }
 @media(prefers-reduced-motion:reduce){.home-space .space-image .facility-zoom-layer{transform:none}}
+/* Approved smartphone facility motion — same zoom-out only; all visual settings remain unchanged. */
+@media(max-width:600px){
+ .home-space .space-image .facility-zoom-layer{will-change:transform}
+ .home-space .space-image.facility-zoom-visible .facility-zoom-layer{animation:facility-cinematic-zoom-mobile 12s ease-out both;-webkit-animation:facility-cinematic-zoom-mobile 12s ease-out both}
+ @keyframes facility-cinematic-zoom-mobile{from{transform:scale(1.075)}to{transform:scale(1)}}
+}
 /* STAGE B TEST ONLY — clearly visible atmospheric depth over the forest.
    Original forest background/overlay, typography and other sections are untouched. */
 .nature{isolation:isolate;overflow:hidden}
