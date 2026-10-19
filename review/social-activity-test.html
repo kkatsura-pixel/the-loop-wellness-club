@@ -473,25 +473,56 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity sequence: static opening, one moving introduction, then background-still reverse/forward holds. */
+/* Social Activity sequence: one intro, then an alternating reverse/forward loop.
+   Each source is fully seeked before it becomes visible.  The run token prevents a
+   late `ended` event from an earlier source from starting an extra, overlapping run. */
 (function(){
  const intro=document.querySelector('.social-activity-video');
  const forward=document.querySelector('.social-activity-still-video:not(.social-activity-reverse-video)');
  const reverse=document.querySelector('.social-activity-reverse-video');
  if(!intro||!forward||!reverse)return;
  const tile=intro.closest('.service-tile'),videos=[intro,forward,reverse];
- let started=false,timer=null,inView=false,allReady=false;
- videos.forEach(v=>{v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=false;});
+ let started=false,inView=false,allReady=false,timer=null,runId=0;
+ videos.forEach(v=>{v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=false;v.preload='auto';});
  const show=v=>videos.forEach(item=>item.classList.toggle('social-video-visible',item===v));
- const pauseAll=()=>videos.forEach(v=>v.pause());
- const hold=(v,ms,next)=>{pauseAll();show(v);timer=setTimeout(next,ms);};
- const play=(v,rate,next)=>{if(timer!==null){clearTimeout(timer);timer=null;}pauseAll();show(v);v.currentTime=0;v.playbackRate=rate;v.onended=next;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
- const reverseRun=()=>play(reverse,.6,()=>hold(reverse,500,forwardRun));
- const forwardRun=()=>play(forward,.6,()=>hold(forward,500,reverseRun));
- const run=()=>{if(started||!inView||!allReady)return;started=true;tile.classList.add('social-video-ready');show(intro);intro.currentTime=0;hold(intro,3000,()=>play(intro,.7,()=>hold(intro,500,reverseRun)));};
+ const stopAll=()=>videos.forEach(v=>{v.pause();v.onended=null;});
+ const wait=(ms,id)=>new Promise(resolve=>{timer=setTimeout(()=>resolve(id===runId),ms);});
+ const seekStart=v=>new Promise(resolve=>{
+   const done=()=>{v.removeEventListener('seeked',done);resolve();};
+   v.pause();v.currentTime=0;
+   if(v.readyState>=2&&v.currentTime===0){requestAnimationFrame(resolve);return;}
+   v.addEventListener('seeked',done,{once:true});
+ });
+ const playOnce=async(v,rate,id)=>{
+   stopAll();await seekStart(v);if(id!==runId)return false;
+   show(v);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+   if(id!==runId)return false;
+   v.playbackRate=rate;
+   return new Promise(resolve=>{
+     v.onended=()=>resolve(id===runId);
+     const p=v.play();if(p&&p.catch)p.catch(()=>resolve(false));
+   });
+ };
+ const hold=async(v,ms,id)=>{stopAll();show(v);return wait(ms,id);};
+ const run=async()=>{
+   if(started||!inView||!allReady)return;
+   started=true;const id=++runId;tile.classList.add('social-video-ready');
+   await seekStart(intro);show(intro);
+   if(!await hold(intro,3000,id))return;
+   if(!await playOnce(intro,.7,id))return;
+   if(!await hold(intro,500,id))return;
+   while(id===runId&&inView){
+     if(!await playOnce(reverse,.6,id))return;
+     if(!await hold(reverse,500,id))return;
+     if(!await playOnce(forward,.6,id))return;
+     if(!await hold(forward,500,id))return;
+   }
+ };
  let ready=0;const readyVideo=()=>{ready+=1;if(ready===videos.length){allReady=true;run();}};
- videos.forEach(v=>{v.addEventListener('loadeddata',readyVideo,{once:true});v.addEventListener('error',()=>tile.classList.remove('social-video-ready'));if(v.readyState>=2)readyVideo();});
- if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){inView=e.isIntersecting;if(inView)run();}},{threshold:.15}).observe(tile);else{inView=true;run();}
+ videos.forEach(v=>{v.addEventListener('canplay',readyVideo,{once:true});v.addEventListener('error',()=>tile.classList.remove('social-video-ready'));if(v.readyState>=3)readyVideo();});
+ const enter=()=>{inView=true;run();};
+ const leave=()=>{inView=false;runId+=1;started=false;if(timer!==null){clearTimeout(timer);timer=null;}stopAll();};
+ if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave();}},{threshold:.15}).observe(tile);else enter();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
