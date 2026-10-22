@@ -498,7 +498,13 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    if(started){const p=video.play();if(p&&p.catch)p.catch(()=>{});return;}
    scheduleStart();
  };
- const leave=()=>{fullyVisible=false;clearTimer();video.pause();};
+ const leave=()=>{
+   fullyVisible=false;
+   clearTimer();
+   started=false;
+   video.pause();
+   video.currentTime=0;
+ };
  video.addEventListener('loadeddata',()=>{
    ready=true;
    video.pause();
