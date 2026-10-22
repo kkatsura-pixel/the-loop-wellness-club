@@ -476,7 +476,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const video=document.querySelector('.social-activity-video');
  const source=video&&video.querySelector('source');
  if(!source)return;
- source.src='social-activity-portrait-loop-v4.mp4';
+ source.src='activity-hls-v1/playlist.m3u8';
+ source.type='application/vnd.apple.mpegurl';
  video.load();
 })();
 </script><script>
