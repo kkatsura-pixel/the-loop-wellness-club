@@ -509,7 +509,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const syncVisibility=()=>{
    const rect=tile.getBoundingClientRect();
    /* A 1px tolerance prevents fractional-pixel rounding on iPad from blocking a visually full card. */
-   (rect.top>=-1&&rect.bottom<=window.innerHeight+1)?enter():leave();
+   const isFullyVisible=rect.top>=-1&&rect.bottom<=window.innerHeight+1;
+   const isOffscreen=rect.bottom<=0||rect.top>=window.innerHeight;
+   if(isFullyVisible){enter();return;}
+   /* Once playback has begun, keep it stable through small scroll/viewport changes. */
+   if(!started||isOffscreen)leave();
  };
  if('IntersectionObserver' in window){
    new IntersectionObserver(syncVisibility,{threshold:0}).observe(tile);
