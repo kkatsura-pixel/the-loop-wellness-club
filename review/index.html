@@ -474,13 +474,20 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
 (function(){
  const v=document.querySelector('.screening-home-video');if(!v)return;
- const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false;
+ const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false,revealScheduled=false;
  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;v.playbackRate=1;
  const play=()=>{v.muted=true;v.playbackRate=1;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
+ const revealAfterFirstFrame=()=>{
+   if(revealScheduled||tile.classList.contains('screening-video-ready'))return;
+   revealScheduled=true;
+   const reveal=()=>requestAnimationFrame(()=>tile.classList.add('screening-video-ready'));
+   if('requestVideoFrameCallback' in v)v.requestVideoFrameCallback(reveal);
+   else requestAnimationFrame(reveal);
+ };
  const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
  v.addEventListener('loadeddata',()=>{});
- v.addEventListener('playing',()=>tile.classList.add('screening-video-ready'));
+ v.addEventListener('playing',revealAfterFirstFrame);
  v.addEventListener('error',()=>tile.classList.remove('screening-video-ready'));
  if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
 })();
