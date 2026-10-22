@@ -473,14 +473,15 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity: once the entire card is visible, hold the video at 0 seconds for 2 seconds, then play the single pre-composed loop. */
+/* Social Activity: after the entire card is visible and scrolling has settled, hold frame 0 for 2 seconds, then play. */
 (function(){
  const video=document.querySelector('.social-activity-video');
  if(!video)return;
  const tile=video.closest('.service-tile');
- let fullyVisible=false,ready=false,started=false,timer=null;
+ let fullyVisible=false,ready=false,started=false,timer=null,settleTimer=null;
  video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;video.preload='auto';video.playbackRate=1;
  const clearTimer=()=>{if(timer!==null){clearTimeout(timer);timer=null;}};
+ const clearSettle=()=>{if(settleTimer!==null){clearTimeout(settleTimer);settleTimer=null;}};
  const play=()=>{
    if(!fullyVisible||!ready)return;
    video.currentTime=0;
@@ -491,16 +492,21 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const scheduleStart=()=>{
    if(!fullyVisible||!ready||started||timer!==null)return;
    video.pause();
+   video.currentTime=0;
    timer=setTimeout(()=>{timer=null;if(!fullyVisible||!ready)return;started=true;play();},2000);
  };
- const enter=()=>{
-   fullyVisible=true;
-   if(started){const p=video.play();if(p&&p.catch)p.catch(()=>{});return;}
-   scheduleStart();
+ const scheduleAfterScroll=()=>{
+   if(!fullyVisible||!ready||started)return;
+   clearSettle();
+   video.pause();
+   video.currentTime=0;
+   settleTimer=setTimeout(()=>{settleTimer=null;scheduleStart();},200);
  };
+ const enter=()=>{fullyVisible=true;scheduleAfterScroll();};
  const leave=()=>{
    fullyVisible=false;
    clearTimer();
+   clearSettle();
    started=false;
    video.pause();
    video.currentTime=0;
@@ -510,9 +516,10 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    video.pause();
    video.currentTime=0;
    tile.classList.add('social-video-ready');
-   scheduleStart();
+   scheduleAfterScroll();
  });
  video.addEventListener('error',()=>tile.classList.remove('social-video-ready'));
+ window.addEventListener('scroll',scheduleAfterScroll,{passive:true});
  if('IntersectionObserver' in window){
    new IntersectionObserver(entries=>entries.forEach(entry=>entry.intersectionRatio>=1?enter():leave()),{threshold:1}).observe(tile);
  }else{enter();}
