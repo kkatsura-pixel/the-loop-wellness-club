@@ -471,7 +471,14 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity trial: native muted inline playback, without JavaScript pause control. */
+/* Social Activity trial: use the iPad-compatible video encode with native muted inline playback. */
+(function(){
+ const video=document.querySelector('.social-activity-video');
+ const source=video&&video.querySelector('source');
+ if(!source)return;
+ source.src='social-activity-portrait-loop-v3.mp4';
+ video.load();
+})();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
 (function(){
