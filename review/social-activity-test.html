@@ -485,7 +485,6 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    if(!visible)return;
    video.currentTime=0;
    video.playbackRate=1;
-   tile.classList.add('social-video-ready');
    const p=video.play();
    if(p&&p.catch)p.catch(()=>tile.classList.remove('social-video-ready'));
  };
@@ -497,6 +496,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    timer=setTimeout(()=>{timer=null;if(!visible)return;started=true;play();},3000);
  };
  const leave=()=>{visible=false;clearTimer();video.pause();};
+ video.addEventListener('loadeddata',()=>{
+   video.pause();
+   video.currentTime=0;
+   tile.classList.add('social-video-ready');
+ });
  video.addEventListener('error',()=>tile.classList.remove('social-video-ready'));
  if('IntersectionObserver' in window){
    new IntersectionObserver(entries=>entries.forEach(entry=>entry.isIntersecting?enter():leave()),{threshold:.15}).observe(tile);
