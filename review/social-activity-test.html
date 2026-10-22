@@ -476,24 +476,22 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const video=document.querySelector('.social-activity-video');
  if(!video)return;
  const tile=video.closest('.service-tile');
- let fullyVisible=false,ready=false,started=false,timer=null;
+ let ready=false,started=false,timer=null;
  video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;video.preload='auto';video.playbackRate=1;
  const clearTimer=()=>{if(timer!==null){clearTimeout(timer);timer=null;}};
  const play=()=>{
-   if(!fullyVisible||!ready)return;
+   if(!ready)return;
    video.playbackRate=1;
    const p=video.play();
-   if(p&&p.catch)p.catch(()=>{});
+   if(p&&p.catch)p.catch(()=>{started=false;});
  };
  const scheduleStart=()=>{
-   if(!fullyVisible||!ready||started||timer!==null)return;
+   if(!ready||started||timer!==null)return;
    video.pause();
    video.currentTime=0;
-   timer=setTimeout(()=>{timer=null;if(!fullyVisible||!ready)return;started=true;play();},2000);
+   timer=setTimeout(()=>{timer=null;if(!ready)return;started=true;play();},2000);
  };
- const enter=()=>{fullyVisible=true;scheduleStart();};
- const leave=()=>{
-   fullyVisible=false;
+ const reset=()=>{
    clearTimer();
    started=false;
    video.pause();
@@ -503,23 +501,27 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    ready=true;
    video.pause();
    video.currentTime=0;
-   scheduleStart();
+   check();
  });
  video.addEventListener('error',()=>{});
- const syncVisibility=()=>{
+ const cardIsFullyVisible=()=>{
    const rect=tile.getBoundingClientRect();
    /* A 1px tolerance prevents fractional-pixel rounding on iPad from blocking a visually full card. */
-   const isFullyVisible=rect.top>=-1&&rect.bottom<=window.innerHeight+1;
-   const isOffscreen=rect.bottom<=0||rect.top>=window.innerHeight;
-   if(isFullyVisible){enter();return;}
-   /* Once playback has begun, keep it stable through small scroll/viewport changes. */
-   if(!started||isOffscreen)leave();
+   return rect.top>=-1&&rect.bottom<=window.innerHeight+1;
+ };
+ const check=()=>{
+   if(started)return;
+   if(cardIsFullyVisible())scheduleStart();
+   else reset();
  };
  if('IntersectionObserver' in window){
-   new IntersectionObserver(syncVisibility,{threshold:0}).observe(tile);
-   window.addEventListener('scroll',syncVisibility,{passive:true});
-   window.addEventListener('resize',syncVisibility,{passive:true});
- }else{enter();}
+   new IntersectionObserver(entries=>{
+     if(entries.some(entry=>entry.intersectionRatio===0))reset();
+     else check();
+   },{threshold:0}).observe(tile);
+   window.addEventListener('scroll',check,{passive:true});
+   window.addEventListener('resize',check,{passive:true});
+ }else{check();}
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
