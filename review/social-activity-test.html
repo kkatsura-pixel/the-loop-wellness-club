@@ -473,37 +473,42 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity: show the still for 3 seconds once, then play one pre-composed loop video. */
+/* Social Activity: once the entire card is visible, hold the video at 0 seconds for 2 seconds, then play the single pre-composed loop. */
 (function(){
  const video=document.querySelector('.social-activity-video');
  if(!video)return;
  const tile=video.closest('.service-tile');
- let visible=false,started=false,timer=null;
+ let fullyVisible=false,ready=false,started=false,timer=null;
  video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;video.preload='auto';video.playbackRate=1;
  const clearTimer=()=>{if(timer!==null){clearTimeout(timer);timer=null;}};
  const play=()=>{
-   if(!visible)return;
+   if(!fullyVisible||!ready)return;
    video.currentTime=0;
    video.playbackRate=1;
    const p=video.play();
    if(p&&p.catch)p.catch(()=>tile.classList.remove('social-video-ready'));
  };
- const enter=()=>{
-   visible=true;
-   if(started){const p=video.play();if(p&&p.catch)p.catch(()=>{});return;}
-   if(timer!==null)return;
+ const scheduleStart=()=>{
+   if(!fullyVisible||!ready||started||timer!==null)return;
    video.pause();
-   timer=setTimeout(()=>{timer=null;if(!visible)return;started=true;play();},3000);
+   timer=setTimeout(()=>{timer=null;if(!fullyVisible||!ready)return;started=true;play();},2000);
  };
- const leave=()=>{visible=false;clearTimer();video.pause();};
+ const enter=()=>{
+   fullyVisible=true;
+   if(started){const p=video.play();if(p&&p.catch)p.catch(()=>{});return;}
+   scheduleStart();
+ };
+ const leave=()=>{fullyVisible=false;clearTimer();video.pause();};
  video.addEventListener('loadeddata',()=>{
+   ready=true;
    video.pause();
    video.currentTime=0;
    tile.classList.add('social-video-ready');
+   scheduleStart();
  });
  video.addEventListener('error',()=>tile.classList.remove('social-video-ready'));
  if('IntersectionObserver' in window){
-   new IntersectionObserver(entries=>entries.forEach(entry=>entry.isIntersecting?enter():leave()),{threshold:.15}).observe(tile);
+   new IntersectionObserver(entries=>entries.forEach(entry=>entry.intersectionRatio>=1?enter():leave()),{threshold:1}).observe(tile);
  }else{enter();}
 })();
 </script><script>
