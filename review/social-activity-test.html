@@ -506,8 +506,15 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    scheduleStart();
  });
  video.addEventListener('error',()=>{});
+ const syncVisibility=()=>{
+   const rect=tile.getBoundingClientRect();
+   /* A 1px tolerance prevents fractional-pixel rounding on iPad from blocking a visually full card. */
+   (rect.top>=-1&&rect.bottom<=window.innerHeight+1)?enter():leave();
+ };
  if('IntersectionObserver' in window){
-   new IntersectionObserver(entries=>entries.forEach(entry=>entry.intersectionRatio>=1?enter():leave()),{threshold:1}).observe(tile);
+   new IntersectionObserver(syncVisibility,{threshold:0}).observe(tile);
+   window.addEventListener('scroll',syncVisibility,{passive:true});
+   window.addEventListener('resize',syncVisibility,{passive:true});
  }else{enter();}
 })();
 </script><script>
