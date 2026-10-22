@@ -510,18 +510,14 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
    return rect.top>=-1&&rect.bottom<=window.innerHeight+1;
  };
  const check=()=>{
-   if(started)return;
-   if(cardIsFullyVisible())scheduleStart();
-   else reset();
+   const rect=tile.getBoundingClientRect();
+   const isOffscreen=rect.bottom<=0||rect.top>=window.innerHeight;
+   if(started){if(isOffscreen)reset();return;}
+   if(cardIsFullyVisible())scheduleStart(); else reset();
  };
- if('IntersectionObserver' in window){
-   new IntersectionObserver(entries=>{
-     if(entries.some(entry=>entry.intersectionRatio===0))reset();
-     else check();
-   },{threshold:0}).observe(tile);
-   window.addEventListener('scroll',check,{passive:true});
-   window.addEventListener('resize',check,{passive:true});
- }else{check();}
+ window.addEventListener('scroll',check,{passive:true});
+ window.addEventListener('resize',check,{passive:true});
+ check();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
