@@ -471,14 +471,34 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity trial: use the iPad-compatible video encode with native muted inline playback. */
+/* Social Activity trial: native iPad HLS playback; hold the opening frame for two seconds once fully visible. */
 (function(){
  const video=document.querySelector('.social-activity-video');
  const source=video&&video.querySelector('source');
- if(!source)return;
+ const tile=video&&video.closest('.service-tile');
+ if(!source||!tile)return;
  source.src='activity-hls-v1/playlist.m3u8';
  source.type='application/vnd.apple.mpegurl';
- video.load();
+ video.autoplay=false;video.removeAttribute('autoplay');
+ video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;
+ let fullyVisible=false,started=false,delayTimer=null;
+ const isFullyVisible=()=>{const r=tile.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;};
+ const holdFirstFrame=()=>{if(started)return;video.pause();if(video.readyState>=1){try{video.currentTime=0}catch(e){}}};
+ const play=()=>{video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});};
+ const update=()=>{
+  const nowFullyVisible=isFullyVisible();
+  if(nowFullyVisible===fullyVisible)return;
+  fullyVisible=nowFullyVisible;
+  if(!fullyVisible){if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}if(!started)holdFirstFrame();else video.pause();return;}
+  if(started){play();return;}
+  holdFirstFrame();
+  delayTimer=setTimeout(()=>{delayTimer=null;if(!fullyVisible||started)return;started=true;play();},2000);
+ };
+ video.addEventListener('loadeddata',holdFirstFrame);
+ video.addEventListener('canplay',holdFirstFrame);
+ window.addEventListener('scroll',update,{passive:true});
+ window.addEventListener('resize',update);
+ video.load();update();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
