@@ -481,10 +481,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  source.type='application/vnd.apple.mpegurl';
  video.autoplay=false;video.removeAttribute('autoplay');video.pause();
  video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;
- let fullyVisible=false,started=false,delayTimer=null;
+ let fullyVisible=false,started=false,playbackAllowed=false,delayTimer=null;
  const isFullyVisible=()=>{const r=tile.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;};
- const holdFirstFrame=()=>{if(started)return;video.pause();if(video.readyState>=1){try{video.currentTime=0}catch(e){}}};
- const play=()=>{video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});};
+ const holdFirstFrame=()=>{if(playbackAllowed)return;video.pause();if(video.readyState>=1&&video.currentTime>.04){try{video.currentTime=0}catch(e){}}};
+ const play=()=>{playbackAllowed=true;video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});};
+ const enforceHold=()=>{holdFirstFrame();if(!playbackAllowed)requestAnimationFrame(enforceHold);};
  const update=()=>{
   const nowFullyVisible=isFullyVisible();
   if(nowFullyVisible===fullyVisible)return;
@@ -496,9 +497,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  };
  video.addEventListener('loadeddata',holdFirstFrame);
  video.addEventListener('canplay',holdFirstFrame);
+ video.addEventListener('play',holdFirstFrame);
+ video.addEventListener('timeupdate',holdFirstFrame);
  window.addEventListener('scroll',update,{passive:true});
  window.addEventListener('resize',update);
- video.load();holdFirstFrame();update();
+ video.load();holdFirstFrame();enforceHold();update();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
