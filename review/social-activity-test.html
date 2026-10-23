@@ -475,13 +475,17 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
 (function(){
  const v=document.querySelector('.social-activity-video');const tile=v&&v.closest('.service-tile');if(!v||!tile)return;
  let ready=v.readyState>=2,visible=false,started=false,timer=null;
+ const diagnostic=new URLSearchParams(location.search).has('diagnostic');
+ let panel;
+ const note=(label)=>{if(!diagnostic)return;const r=tile.getBoundingClientRect();const vv=window.visualViewport;const viewH=vv?vv.height:window.innerHeight;panel.textContent=`${label} | t=${v.currentTime.toFixed(2)} | paused=${v.paused} | top=${r.top.toFixed(0)} bottom=${r.bottom.toFixed(0)} view=${viewH.toFixed(0)}`;};
+ if(diagnostic){panel=document.createElement('div');panel.style.cssText='position:fixed;z-index:9999;left:12px;right:12px;bottom:12px;padding:10px 12px;background:rgba(20,19,16,.9);color:#fff;font:12px/1.45 -apple-system,sans-serif;letter-spacing:.02em';document.body.appendChild(panel);note('initial');}
  const arm=()=>{
   if(!ready||!visible||started||timer)return;
-  v.pause();timer=setTimeout(()=>{timer=null;if(!ready||!visible||started)return;started=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});},2000);
+  v.pause();note('2秒待機開始');timer=setTimeout(()=>{timer=null;if(!ready||!visible||started)return;started=true;note('play() 実行');const p=v.play();if(p&&p.catch)p.catch(()=>{});},2000);
  };
- v.addEventListener('loadeddata',()=>{ready=true;arm();});
- v.addEventListener('play',()=>{if(!started)v.pause();});
- new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.99;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[.99]}).observe(tile);
+ v.addEventListener('loadeddata',()=>{ready=true;note('loadeddata');arm();});
+ v.addEventListener('play',()=>{note(started?'play 発火（許可後）':'play 発火（許可前）');if(!started)v.pause();});
+ new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.99;note(`表示率=${e.intersectionRatio.toFixed(3)}`);if(!visible&&timer){clearTimeout(timer);timer=null;note('待機取消');}arm();},{threshold:[0,.99,1]}).observe(tile);
  arm();
 })();
 </script><script>
