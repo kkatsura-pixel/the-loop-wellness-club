@@ -471,37 +471,18 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity trial: native iPad HLS playback; hold the opening frame for two seconds once fully visible. */
+/* Social Activity: same 2-second first-play controller used by the working Screening tile. */
 (function(){
- const video=document.querySelector('.social-activity-video');
- const source=video&&video.querySelector('source');
- const tile=video&&video.closest('.service-tile');
- if(!source||!tile)return;
- source.src='activity-hls-v1/playlist.m3u8';
- source.type='application/vnd.apple.mpegurl';
- video.autoplay=false;video.removeAttribute('autoplay');video.pause();
- video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;
- let fullyVisible=false,started=false,playbackAllowed=false,delayTimer=null;
- const isFullyVisible=()=>{const r=tile.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;};
- const holdFirstFrame=()=>{if(playbackAllowed)return;video.pause();if(video.readyState>=1&&video.currentTime>.04){try{video.currentTime=0}catch(e){}}};
- const play=()=>{playbackAllowed=true;video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});};
- const enforceHold=()=>{holdFirstFrame();if(!playbackAllowed)requestAnimationFrame(enforceHold);};
- const update=()=>{
-  const nowFullyVisible=isFullyVisible();
-  if(nowFullyVisible===fullyVisible)return;
-  fullyVisible=nowFullyVisible;
-  if(!fullyVisible){if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}if(!started)holdFirstFrame();else video.pause();return;}
-  if(started){play();return;}
-  holdFirstFrame();
-  delayTimer=setTimeout(()=>{delayTimer=null;if(!fullyVisible||started)return;started=true;play();},2000);
- };
- video.addEventListener('loadeddata',holdFirstFrame);
- video.addEventListener('canplay',holdFirstFrame);
- video.addEventListener('play',holdFirstFrame);
- video.addEventListener('timeupdate',holdFirstFrame);
- window.addEventListener('scroll',update,{passive:true});
- window.addEventListener('resize',update);
- video.load();holdFirstFrame();enforceHold();update();
+ const v=document.querySelector('.social-activity-video');if(!v)return;
+ const source=v.querySelector('source');const tile=v.closest('.service-tile');if(!source||!tile)return;
+ source.src='activity-hls-v1/playlist.m3u8';source.type='application/vnd.apple.mpegurl';
+ v.autoplay=false;v.removeAttribute('autoplay');v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
+ let firstStart=false,delayTimer=null,visible=false;
+ const play=()=>{v.muted=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
+ const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
+ const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
+ v.load();
+ if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
