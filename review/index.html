@@ -77,7 +77,7 @@ body>header nav a[aria-current]{border-color:rgba(255,255,255,.8)}
 .home-services .service-tile:nth-child(2) h3{text-shadow:0 1px 5px rgba(8,17,13,.32)}
 /* SOCIAL ACTIVITY: align warmth, contrast and saturation with the approved HERO */
 .home-services .service-tile:nth-child(3) img{filter:saturate(.83) sepia(.045) brightness(.97) contrast(1.055)}
-.home-services .service-tile:nth-child(3) .social-activity-video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center top;pointer-events:none;filter:saturate(.86) sepia(.03) brightness(.975) contrast(1.035);opacity:1}
+.home-services .service-tile:nth-child(3) .social-activity-video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center 58%;pointer-events:none;filter:saturate(.86) sepia(.03) brightness(.975) contrast(1.035);opacity:1}
 /* HOME facility copy: typography aligned with approved HERO and Japanese editorial text */
 .home-space .space-copy h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(42px,4.7vw,72px);line-height:.98;letter-spacing:.012em;margin:0 0 clamp(42px,5vw,72px)}
 .home-space .space-copy p{font-family:'Noto Serif JP','Yu Mincho',serif;font-weight:400;font-size:13px;line-height:2.6;letter-spacing:.065em;margin:0}
@@ -400,17 +400,25 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  observer.observe(group);
 })();
 </script><script>
-/* Service triptych: reveal only after Screening's real video frame is available. */
+/* Service triptych: each video curtain waits for its own real video frame. */
 (function(){
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
  const group=document.querySelector('.home-services');
  if(!group)return;
  const tiles=[...group.querySelectorAll('.service-tile')];
  const screening=group.querySelector('.screening-home-video');
+ const activity=group.querySelector('.social-activity-video');
  if(tiles.length!==3)return;
  tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
- let revealed=false;
- const reveal=()=>{if(revealed)return;revealed=true;tiles.forEach(el=>el.classList.add('triptych-active'));};
+ let revealed=false,activityRevealed=false;
+ const revealActivity=()=>{if(activityRevealed)return;activityRevealed=true;tiles[2].classList.add('triptych-active');};
+ const reveal=()=>{
+  if(revealed)return;revealed=true;
+  tiles[0].classList.add('triptych-active');tiles[1].classList.add('triptych-active');
+  if(!activity||activity.readyState>=2){revealActivity();return;}
+  activity.addEventListener('loadeddata',revealActivity,{once:true});
+  activity.addEventListener('canplay',revealActivity,{once:true});
+ };
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
   observer.disconnect();
@@ -485,6 +493,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  v.addEventListener('loadeddata',()=>{ready=true;arm();});
  v.addEventListener('play',()=>{if(!started)v.pause();});
  tile.addEventListener('animationend',e=>{if(e.target!==tile||e.animationName!=='triptych-curtain'||e.pseudoElement!=='::after')return;visualReady=true;arm();});
+ v.load();
  new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.99;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[0,.99,1]}).observe(tile);
  arm();
 })();
