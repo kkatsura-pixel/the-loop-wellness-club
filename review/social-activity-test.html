@@ -482,7 +482,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
  v.load();
- if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
+ if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.intersectionRatio>=.99)enter();else leave()}},{threshold:.99}).observe(tile);else enter();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
