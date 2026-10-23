@@ -400,18 +400,23 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  observer.observe(group);
 })();
 </script><script>
-/* Approved service triptych: one trigger, fixed left-to-right delays. */
+/* Service triptych: reveal only after Screening's real video frame is available. */
 (function(){
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
  const group=document.querySelector('.home-services');
  if(!group)return;
  const tiles=[...group.querySelectorAll('.service-tile')];
+ const screening=group.querySelector('.screening-home-video');
  if(tiles.length!==3)return;
  tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
+ let revealed=false;
+ const reveal=()=>{if(revealed)return;revealed=true;tiles.forEach(el=>el.classList.add('triptych-active'));};
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
-  tiles.forEach(el=>el.classList.add('triptych-active'));
   observer.disconnect();
+  if(!screening||screening.readyState>=2){reveal();return;}
+  screening.addEventListener('loadeddata',reveal,{once:true});
+  screening.addEventListener('canplay',reveal,{once:true});
  },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
  observer.observe(group);
 })();
@@ -489,10 +494,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const v=document.querySelector('.screening-home-video');if(!v)return;
  const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false;
  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;v.playbackRate=1;
+ v.load();
  const play=()=>{v.muted=true;v.playbackRate=1;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
  const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
- v.addEventListener('loadeddata',()=>{v.currentTime=0;v.pause();});
+ v.addEventListener('loadeddata',()=>{if(!firstStart){v.currentTime=0;v.pause();return;}if(visible)play();});
  if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
 })();
 </script><script>
