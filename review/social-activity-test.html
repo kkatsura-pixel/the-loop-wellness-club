@@ -403,17 +403,25 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  observer.observe(group);
 })();
 </script><script>
-/* Service triptych: reveal only after Screening's real video frame is available. */
+/* Service triptych: each video curtain waits for its own real video frame. */
 (function(){
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
  const group=document.querySelector('.home-services');
  if(!group)return;
  const tiles=[...group.querySelectorAll('.service-tile')];
  const screening=group.querySelector('.screening-home-video');
+ const activity=group.querySelector('.social-activity-video');
  if(tiles.length!==3)return;
  tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
- let revealed=false;
- const reveal=()=>{if(revealed)return;revealed=true;tiles.forEach(el=>el.classList.add('triptych-active'));};
+ let revealed=false,activityRevealed=false;
+ const revealActivity=()=>{if(activityRevealed)return;activityRevealed=true;tiles[2].classList.add('triptych-active');};
+ const reveal=()=>{
+  if(revealed)return;revealed=true;
+  tiles[0].classList.add('triptych-active');tiles[1].classList.add('triptych-active');
+  if(!activity||activity.readyState>=2){revealActivity();return;}
+  activity.addEventListener('loadeddata',revealActivity,{once:true});
+  activity.addEventListener('canplay',revealActivity,{once:true});
+ };
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
   observer.disconnect();
@@ -477,7 +485,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity: verified iPad structure — static HLS source, no autoplay or load(), then one 2-second hold. */
+/* Social Activity: preload the HLS video, then begin its curtain only once its real frame is ready. */
 (function(){
  const v=document.querySelector('.social-activity-video');const tile=v&&v.closest('.service-tile');if(!v||!tile)return;
  /* The third card is initially covered by its own CSS curtain.  Geometry alone
@@ -497,6 +505,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  /* animationend is dispatched on the originating tile; pseudoElement identifies
     the opaque ::after curtain rather than the card's text animations. */
  tile.addEventListener('animationend',e=>{if(e.target!==tile||e.animationName!=='triptych-curtain'||e.pseudoElement!=='::after')return;visualReady=true;note('表示カーテン終了');arm();});
+ v.load();
  new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.99;note(`表示率=${e.intersectionRatio.toFixed(3)}`);if(!visible&&timer){clearTimeout(timer);timer=null;note('待機取消');}arm();},{threshold:[0,.99,1]}).observe(tile);
  arm();
 })();
