@@ -488,7 +488,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  let ready=v.readyState>=2,visible=false,visualReady=!tile.classList.contains('triptych-pending'),started=false,timer=null;
  const arm=()=>{
   if(!ready||!visible||!visualReady||started||timer)return;
-  v.pause();timer=setTimeout(()=>{timer=null;if(!ready||!visible||!visualReady||started)return;started=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});},2000);
+  v.pause();timer=setTimeout(()=>{timer=null;if(!ready||!visible||!visualReady||started)return;started=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});},1000);
  };
  v.addEventListener('loadeddata',()=>{ready=true;arm();});
  v.addEventListener('play',()=>{if(!started)v.pause();});
