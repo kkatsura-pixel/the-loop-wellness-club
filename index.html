@@ -551,38 +551,9 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const play=()=>{v.muted=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
  const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
- /* Decode Beauty's actual paused first frame before exposing its video layer.
-    The poster remains only as an off-screen loading fallback, so playback at 2 seconds
-    cannot replace a differently cropped poster frame mid-curtain. */
- let curtainStarted=false,actualFramePrepared=false;
- const prepareActualFrame=()=>{
-  if(actualFramePrepared||v.readyState<2)return;
-  actualFramePrepared=true;
-  v.removeAttribute('poster');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-   if(curtainStarted)tile.classList.add('beauty-video-ready');
-  }));
- };
- const beginCurtainLayer=()=>{
-  curtainStarted=true;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-   prepareActualFrame();
-  }else{
-   prepareActualFrame();
-  }
- };
- v.addEventListener('loadeddata',prepareActualFrame,{once:true});
- /* The MP4 may already be decoded before this deferred script runs. */
- if(v.readyState>=2)prepareActualFrame();
- if(tile.classList.contains('triptych-active')){
-  beginCurtainLayer();
- }else{
-  const curtainObserver=new MutationObserver(()=>{
-   if(!tile.classList.contains('triptych-active'))return;
-   curtainObserver.disconnect();beginCurtainLayer();
-  });
-  curtainObserver.observe(tile,{attributes:true,attributeFilter:['class']});
- }
+ /* Restore the established Beauty playback path. */
+ v.addEventListener('loadeddata',()=>tile.classList.add('beauty-video-ready'));
+ v.addEventListener('playing',()=>tile.classList.add('beauty-video-ready'));
  v.addEventListener('error',()=>tile.classList.remove('beauty-video-ready'));
  if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
 })();
