@@ -492,7 +492,16 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  };
  v.addEventListener('loadeddata',()=>{ready=true;arm();});
  v.addEventListener('play',()=>{if(!started)v.pause();});
- tile.addEventListener('animationend',e=>{if(e.target!==tile||e.animationName!=='triptych-curtain'||e.pseudoElement!=='::after')return;visualReady=true;arm();});
+ const markCurtainComplete=()=>{if(visualReady)return;visualReady=true;arm();};
+ tile.addEventListener('animationend',e=>{if(e.target!==tile||e.animationName!=='triptych-curtain'||e.pseudoElement!=='::after')return;markCurtainComplete();});
+ const armCurtainFallback=()=>{
+  const style=getComputedStyle(tile,'::after');
+  const milliseconds=value=>value.endsWith('ms')?parseFloat(value):parseFloat(value)*1000;
+  const total=milliseconds(style.animationDelay||'0s')+milliseconds(style.animationDuration||'0s');
+  if(total>0)setTimeout(markCurtainComplete,total+80);
+ };
+ if(tile.classList.contains('triptych-active'))armCurtainFallback();
+ else new MutationObserver((_,observer)=>{if(!tile.classList.contains('triptych-active'))return;observer.disconnect();armCurtainFallback();}).observe(tile,{attributes:true,attributeFilter:['class']});
  v.load();
  new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.15;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[0,.99,1]}).observe(tile);
  arm();
