@@ -494,7 +494,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  v.addEventListener('play',()=>{if(!started)v.pause();});
  tile.addEventListener('animationend',e=>{if(e.target!==tile||e.animationName!=='triptych-curtain'||e.pseudoElement!=='::after')return;visualReady=true;arm();});
  v.load();
- new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.99;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[0,.99,1]}).observe(tile);
+ new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.15;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[0,.99,1]}).observe(tile);
  arm();
 })();
 </script><script>
