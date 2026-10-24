@@ -551,17 +551,33 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const play=()=>{v.muted=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
  const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
- /* Prepare the video layer while its own curtain still fully covers the card.
-    This changes only compositing; playback timing remains governed by enter()/the 2-second timer. */
- const prepareVisualLayer=()=>tile.classList.add('beauty-video-ready');
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  v.addEventListener('loadeddata',prepareVisualLayer,{once:true});
- }else if(tile.classList.contains('triptych-active')){
-  prepareVisualLayer();
+ /* Decode Beauty's actual paused first frame before exposing its video layer.
+    The poster remains only as an off-screen loading fallback, so playback at 2 seconds
+    cannot replace a differently cropped poster frame mid-curtain. */
+ let curtainStarted=false,actualFramePrepared=false;
+ const prepareActualFrame=()=>{
+  if(actualFramePrepared||v.readyState<2)return;
+  actualFramePrepared=true;
+  v.removeAttribute('poster');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   if(curtainStarted)tile.classList.add('beauty-video-ready');
+  }));
+ };
+ const beginCurtainLayer=()=>{
+  curtainStarted=true;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+   prepareActualFrame();
+  }else{
+   prepareActualFrame();
+  }
+ };
+ v.addEventListener('loadeddata',prepareActualFrame,{once:true});
+ if(tile.classList.contains('triptych-active')){
+  beginCurtainLayer();
  }else{
   const curtainObserver=new MutationObserver(()=>{
    if(!tile.classList.contains('triptych-active'))return;
-   curtainObserver.disconnect();prepareVisualLayer();
+   curtainObserver.disconnect();beginCurtainLayer();
   });
   curtainObserver.observe(tile,{attributes:true,attributeFilter:['class']});
  }
