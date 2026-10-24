@@ -503,8 +503,18 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  if(tile.classList.contains('triptych-active'))armCurtainFallback();
  else new MutationObserver((_,observer)=>{if(!tile.classList.contains('triptych-active'))return;observer.disconnect();armCurtainFallback();}).observe(tile,{attributes:true,attributeFilter:['class']});
  v.load();
- new IntersectionObserver(es=>{const e=es[0];visible=e.intersectionRatio>=.15;if(!visible&&timer){clearTimeout(timer);timer=null;}arm();},{threshold:[0,.99,1]}).observe(tile);
- arm();
+ const updateVisibility=()=>{
+  const rect=tile.getBoundingClientRect();
+  const viewport=window.visualViewport?.height||window.innerHeight;
+  const visiblePixels=Math.max(0,Math.min(rect.bottom,viewport)-Math.max(rect.top,0));
+  visible=rect.height>0&&visiblePixels/rect.height>=.15;
+  if(!visible&&timer){clearTimeout(timer);timer=null;}
+  arm();
+ };
+ window.addEventListener('scroll',updateVisibility,{passive:true});
+ window.addEventListener('resize',updateVisibility,{passive:true});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',updateVisibility,{passive:true});
+ updateVisibility();
 })();
 </script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
