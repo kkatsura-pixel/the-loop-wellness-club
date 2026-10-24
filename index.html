@@ -572,6 +572,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
   }
  };
  v.addEventListener('loadeddata',prepareActualFrame,{once:true});
+ /* The MP4 may already be decoded before this deferred script runs. */
+ if(v.readyState>=2)prepareActualFrame();
  if(tile.classList.contains('triptych-active')){
   beginCurtainLayer();
  }else{
