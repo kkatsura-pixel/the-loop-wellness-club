@@ -541,13 +541,13 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  v.addEventListener('loadedmetadata',align);window.addEventListener('resize',align,{passive:true});align();
 })();
 </script><script>
-/* Approved BEAUTY loop: 2-second hold on first visibility only; later loops stay continuous. */
+/* Approved BEAUTY loop: 3-second hold on first visibility only; later loops stay continuous. */
 (function(){
  const v=document.querySelector('.beauty-home-video');if(!v)return;
  const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false;
  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
  const play=()=>{v.muted=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
- const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},2000);};
+ const enter=()=>{visible=true;if(firstStart){play();return;}if(delayTimer!==null)return;v.pause();delayTimer=setTimeout(()=>{delayTimer=null;if(!visible)return;firstStart=true;play()},3000);};
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
  /* Restore the established Beauty playback path. */
  if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
