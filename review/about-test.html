@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="design.css">
   <style>
     :root{--ink:#19251f;--paper:#f4f1ea;--line:#c9c8bf;--sage:#9ba592;--warm:#d8d0c4}
-    .about-hero{position:relative;min-height:84svh;display:flex;align-items:flex-end;padding:clamp(36px,8vw,110px);padding-bottom:clamp(36px,5.7vw,84px);color:#fff;isolation:isolate;overflow:hidden;background:#859087}
+    .about-hero{position:relative;min-height:84svh;display:flex;align-items:flex-end;padding:clamp(36px,8vw,110px);color:#fff;isolation:isolate;overflow:hidden;background:#859087}
     .about-hero::before{content:"";position:absolute;inset:0;z-index:0;background:url('IMG_5167.png') center/cover no-repeat}
     .about-hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(18,31,24,.25),rgba(18,31,24,.05) 48%,rgba(12,20,16,.64))}
     .about-hero .placeholder-caption{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:400 11px/1.5 'Noto Sans JP',sans-serif;letter-spacing:.18em;white-space:nowrap;opacity:.72}
@@ -19,13 +19,8 @@
     .about-kicker{font:400 11px/1.5 'Noto Sans JP',sans-serif;letter-spacing:.19em;color:#68736a;margin-bottom:28px}
     .about-intro h2,.about-community h2{font:400 clamp(44px,5.4vw,84px)/.98 'Cormorant Garamond',Georgia,serif;letter-spacing:.015em;color:var(--ink);margin:0 0 45px}
     .about-intro p{font:400 clamp(18px,1.72vw,27px)/2.05 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.04em;color:var(--ink);margin:0;max-width:680px}
-    .loop-diagram{position:relative;aspect-ratio:1;max-width:530px;width:100%;margin:auto;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center}
-    .loop-diagram::before{content:"";position:absolute;inset:18%;border:1px solid #a7b09e;border-radius:50%}
-    .loop-diagram .core{width:34%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--ink);color:#fff;font:400 clamp(19px,2.1vw,30px)/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em}
-    .loop-diagram article{position:absolute;width:42%;text-align:center;color:var(--ink)}
-    .loop-diagram article strong{display:block;font:400 clamp(26px,3.1vw,46px)/1 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.13em;margin-bottom:12px}
-    .loop-diagram article span{display:block;font:400 clamp(11px,1vw,14px)/1.85 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.035em}
-    .loop-diagram .know{top:6%;left:50%;transform:translateX(-50%)}.loop-diagram .condition{bottom:10%;left:1%}.loop-diagram .connect{bottom:10%;right:1%}
+    .loop-diagram{max-width:530px;width:100%;margin:auto}
+    .loop-diagram img{display:block;width:100%;height:auto}
     .about-community{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1fr);gap:clamp(55px,10vw,170px);max-width:1440px;margin:auto;align-items:start}
     .couple-placeholder{min-height:clamp(500px,66vw,830px);background:linear-gradient(150deg,#677b77 0%,#a5aca0 43%,#d9d0bf 100%);position:relative;overflow:hidden}
     .couple-placeholder::after{content:"男女画像 — 素材確定後に差し替え";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:400 11px/1.5 'Noto Sans JP',sans-serif;letter-spacing:.16em;color:#fff;white-space:nowrap;opacity:.78}
@@ -33,7 +28,7 @@
     .about-community .body{font:400 clamp(14px,1.08vw,17px)/2.5 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.045em;color:#354139;margin:0;max-width:780px}
     .about-note{max-width:1440px;margin:40px auto 0;font:400 10px/1.7 'Noto Sans JP',sans-serif;letter-spacing:.1em;color:#7f837c;text-align:right}
     @media(max-width:850px){.about-intro,.about-community{grid-template-columns:1fr;gap:65px}.about-intro>div:first-child{order:1}.loop-diagram{max-width:460px}.about-community>div:last-child{order:1}.about-community .lead{margin-bottom:34px}.about-note{text-align:left}}
-    @media(max-width:600px){.about-desktop-break{display:none}.about-hero{min-height:72svh;padding:30px 7vw 55px}.about-hero h1{font-size:clamp(43px,11.5vw,68px);line-height:.98}.about-section{padding:92px 7vw}.about-intro h2,.about-community h2{margin-bottom:32px}.about-intro p{font-size:18px;line-height:2}.loop-diagram article span{font-size:10px}.loop-diagram article strong{margin-bottom:8px}.couple-placeholder{min-height:480px}.about-community .lead{font-size:25px;line-height:1.55}.about-community .body{font-size:13px;line-height:2.45}}
+    @media(max-width:600px){.about-desktop-break{display:none}.about-hero{min-height:72svh;padding:30px 7vw 55px}.about-hero h1{font-size:clamp(43px,11.5vw,68px);line-height:.98}.about-section{padding:92px 7vw}.about-intro h2,.about-community h2{margin-bottom:32px}.about-intro p{font-size:18px;line-height:2}.couple-placeholder{min-height:480px}.about-community .lead{font-size:25px;line-height:1.55}.about-community .body{font-size:13px;line-height:2.45}}
   </style>
 </head>
 <body>
@@ -54,11 +49,8 @@
           <h2>THE LOOP</h2>
           <p>THE LOOPは、&ldquo;REGENERATIVE&rdquo;<br class="about-desktop-break">自己再生をテーマにした<br class="about-desktop-break">ライフスタイルデザインをご提案する<br class="about-desktop-break">SOCIAL WELLNESS CLUBです</p>
         </div>
-        <div class="loop-diagram" aria-label="知る・整える・繋がるの循環">
-          <div class="core">THE<br>LOOP</div>
-          <article class="know"><strong>知る</strong><span>から始まる、<br>丁寧な暮らし</span></article>
-          <article class="condition"><strong>整える</strong><span>から始まる、<br>心身の余白</span></article>
-          <article class="connect"><strong>繋がる</strong><span>から拡がる、<br>豊かな人生</span></article>
+        <div class="loop-diagram">
+          <img src="loop-diagram-proposal-5.webp" alt="知る・整える・繋がるをTHE LOOPの中心でつなぐ循環図">
         </div>
       </div>
     </section>
@@ -69,7 +61,7 @@
           <div class="about-kicker">SOCIAL WELLNESS CLUB</div>
           <h2>FOR BODY,<br>MIND &amp; LIFE</h2>
           <p class="lead">A well-being community grounded in cutting-edge wellness and performance science, dedicated to cultivating both physical and mental maturity to elevate life performance.</p>
-          <p class="body">特別なエクスペリエンスを実現するコンディショニングセンターは、最先端のテクノロジーを用いた「ウェルネススクリーニング」に始まり、世界基準の知識を有する専属のパフォーマンススペシャリストによる個別最適化した革新的なパーソナルレッスン「ビューティーコンディショニング」で、男女問わずお客さま一人ひとりがご希望されるパフォーマンスやリカバリー、そして美しいシルエットを達成できるようお手伝いいたします。更に提携レストランでのクリーンイーティング、スタジオ外でのサーフィンレッスンや、ナチュラルワインパーティーなども交えて、ソーシャルな「ウェルネスライフ」をお届けいたします</p>
+          <p class="body">特別なエクスペリエンスを実現するコンディショニングセンターは、最先端のテクノロジーを用いた「ウェルネススクリーニング」に始まり、世界基準の知識を有する専属のパフォーマンススペシャリストによる個別最適化した革新的なパーソナルレッスン「ビューティーコンディショニング」で、男女問わずお客さま一人ひとりがご希望されるパフォーマンスやリカバリー、そして美しいシルエットを達成できるようお手伝いいたします。更に提携レストランでのクリーンイーティング、スタジオ外でのサーフィンレッスンや、ナチュラルワインパーティーなども交えて、ソーシャルな「ウェルネスライフ」をお届けいたします。</p>
         </div>
       </div>
       <p class="about-note">ABOUT PAGE — STRUCTURE TRIAL / IMAGES NOT YET APPLIED</p>
