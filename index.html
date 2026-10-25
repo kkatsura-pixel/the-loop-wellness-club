@@ -405,24 +405,26 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  if(!group)return;
  const tiles=[...group.querySelectorAll('.service-tile')];
  const screening=group.querySelector('.screening-home-video');
+ const beauty=group.querySelector('.beauty-home-video');
  const activity=group.querySelector('.social-activity-video');
  if(tiles.length!==3)return;
  tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
- let revealed=false,activityRevealed=false;
+ let screeningRevealed=false,beautyRevealed=false,activityRevealed=false;
+ const revealScreening=()=>{if(screeningRevealed)return;screeningRevealed=true;tiles[0].classList.add('triptych-active');};
+ const revealBeauty=()=>{if(beautyRevealed)return;beautyRevealed=true;tiles[1].classList.add('triptych-active');};
  const revealActivity=()=>{if(activityRevealed)return;activityRevealed=true;tiles[2].classList.add('triptych-active');};
- const reveal=()=>{
-  if(revealed)return;revealed=true;
-  tiles[0].classList.add('triptych-active');tiles[1].classList.add('triptych-active');
-  if(!activity||activity.readyState>=2){revealActivity();return;}
-  activity.addEventListener('loadeddata',revealActivity,{once:true});
-  activity.addEventListener('canplay',revealActivity,{once:true});
+ const revealWhenReady=(video,reveal)=>{
+  if(!video||video.readyState>=2){reveal();return;}
+  video.addEventListener('loadeddata',reveal,{once:true});
+  video.addEventListener('canplay',reveal,{once:true});
+  video.load();
  };
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
   observer.disconnect();
-  if(!screening||screening.readyState>=2){reveal();return;}
-  screening.addEventListener('loadeddata',reveal,{once:true});
-  screening.addEventListener('canplay',reveal,{once:true});
+  revealWhenReady(screening,revealScreening);
+  revealWhenReady(beauty,revealBeauty);
+  revealWhenReady(activity,revealActivity);
  },{threshold:.08,rootMargin:'0px 0px -4% 0px'});
  observer.observe(group);
 })();
