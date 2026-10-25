@@ -398,9 +398,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  observer.observe(group);
 })();
 </script><script>
-/* Service triptych: desktop and iPad only. Smartphone has an independent controller below. */
+/* Service triptych: each video curtain waits for its own real video frame. */
 (function(){
- if(window.matchMedia('(max-width:600px)').matches)return;
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
  const group=document.querySelector('.home-services');
  if(!group)return;
@@ -481,9 +480,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* Social Activity: desktop and iPad controller. */
+/* Social Activity: start its first hold only after the visible card reveal has finished. */
 (function(){
- if(window.matchMedia('(max-width:600px)').matches)return;
  const v=document.querySelector('.social-activity-video');const tile=v&&v.closest('.service-tile');if(!v||!tile)return;
  let ready=v.readyState>=2,visible=false,visualReady=!tile.classList.contains('triptych-pending'),started=false,timer=null;
  const arm=()=>{
@@ -517,9 +515,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  updateVisibility();
 })();
 </script><script>
-/* Screening video: desktop and iPad controller. */
+/* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
 (function(){
- if(window.matchMedia('(max-width:600px)').matches)return;
  const v=document.querySelector('.screening-home-video');if(!v)return;
  const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false;
  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;v.playbackRate=1;
@@ -544,9 +541,8 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  v.addEventListener('loadedmetadata',align);window.addEventListener('resize',align,{passive:true});align();
 })();
 </script><script>
-/* Approved BEAUTY loop: desktop and iPad controller. */
+/* Approved BEAUTY loop: 3-second hold on first visibility only; later loops stay continuous. */
 (function(){
- if(window.matchMedia('(max-width:600px)').matches)return;
  const v=document.querySelector('.beauty-home-video');if(!v)return;
  const tile=v.closest('.service-tile');let firstStart=false,delayTimer=null,visible=false;
  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
@@ -555,75 +551,5 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  const leave=()=>{visible=false;if(delayTimer!==null){clearTimeout(delayTimer);delayTimer=null;}v.pause();};
  /* Restore the established Beauty playback path. */
  if('IntersectionObserver' in window)new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)enter();else leave()}},{threshold:.15}).observe(tile);else enter();
-})();
-</script><script>
-/* Smartphone-only service controller. It never changes the iPad/Desktop Beauty path. */
-(function(){
- if(!window.matchMedia('(max-width:600px)').matches)return;
- const group=document.querySelector('.home-services');
- const tiles=group?[...group.querySelectorAll('.service-tile')]:[];
- const screening=document.querySelector('.screening-home-video');
- const beauty=document.querySelector('.beauty-home-video');
- const activity=document.querySelector('.social-activity-video');
- if(!group||tiles.length!==3||!screening||!beauty||!activity)return;
-
- [screening,beauty,activity].forEach(v=>{
-  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('playsinline','');
-  v.loop=true;v.load();
- });
-
- let curtainsStarted=false;
- const startCurtains=()=>{
-  if(curtainsStarted)return;
-  curtainsStarted=true;
-  tiles.forEach((tile,index)=>{
-   tile.classList.add('triptych-tile','triptych-pending');
-   tile.style.setProperty('--triptych-delay',(index*780)+'ms');
-   tile.classList.add('triptych-active');
-  });
- };
- if('IntersectionObserver' in window){
-  const io=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){startCurtains();io.disconnect();}},{threshold:.08});
-  io.observe(group);
- }else startCurtains();
-
- const visibleRatio=tile=>{
-  const rect=tile.getBoundingClientRect();
-  const height=window.visualViewport?.height||window.innerHeight;
-  const shown=Math.max(0,Math.min(rect.bottom,height)-Math.max(rect.top,0));
-  return rect.height?shown/rect.height:0;
- };
- const control=(video,tile,hold,requiresCurtain=false)=>{
-  let ready=video.readyState>=2,visible=false,curtainReady=!requiresCurtain,started=false,timer=null;
-  const play=()=>{video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});};
-  const arm=()=>{
-   if(!ready||!visible||!curtainReady)return;
-   if(started){play();return;}
-   if(timer!==null)return;
-   video.pause();
-   timer=setTimeout(()=>{timer=null;if(!ready||!visible||!curtainReady)return;started=true;play();},hold);
-  };
-  const update=()=>{
-   visible=visibleRatio(tile)>=.15;
-   if(!visible){if(timer!==null){clearTimeout(timer);timer=null;}video.pause();return;}
-   arm();
-  };
-  video.addEventListener('loadeddata',()=>{ready=true;update();});
-  video.addEventListener('canplay',()=>{ready=true;update();});
-  if(requiresCurtain){
-   const done=()=>{curtainReady=true;update();};
-   tile.addEventListener('animationend',event=>{if(event.target===tile&&event.animationName==='triptych-curtain')done();});
-   const waitForCurtain=()=>setTimeout(done,4140);
-   if(curtainsStarted)waitForCurtain();
-   else new MutationObserver((_,observer)=>{if(!curtainsStarted)return;observer.disconnect();waitForCurtain();}).observe(tile,{attributes:true});
-  }
-  window.addEventListener('scroll',update,{passive:true});
-  window.addEventListener('resize',update,{passive:true});
-  if(window.visualViewport)window.visualViewport.addEventListener('resize',update,{passive:true});
-  update();
- };
- control(screening,tiles[0],2000);
- control(beauty,tiles[1],3000);
- control(activity,tiles[2],1000,true);
 })();
 </script></body></html>
