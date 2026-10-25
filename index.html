@@ -405,17 +405,26 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  if(!group)return;
  const tiles=[...group.querySelectorAll('.service-tile')];
  const screening=group.querySelector('.screening-home-video');
+ const beauty=group.querySelector('.beauty-home-video');
  const activity=group.querySelector('.social-activity-video');
  if(tiles.length!==3)return;
  tiles.forEach((el,i)=>{el.classList.add('triptych-tile','triptych-pending');el.style.setProperty('--triptych-delay',(i*780)+'ms')});
- let revealed=false,activityRevealed=false;
+ let revealed=false,beautyRevealed=false,activityRevealed=false;
+ const revealBeauty=()=>{if(beautyRevealed)return;beautyRevealed=true;tiles[1].classList.add('triptych-active');};
  const revealActivity=()=>{if(activityRevealed)return;activityRevealed=true;tiles[2].classList.add('triptych-active');};
  const reveal=()=>{
   if(revealed)return;revealed=true;
-  tiles[0].classList.add('triptych-active');tiles[1].classList.add('triptych-active');
-  if(!activity||activity.readyState>=2){revealActivity();return;}
-  activity.addEventListener('loadeddata',revealActivity,{once:true});
-  activity.addEventListener('canplay',revealActivity,{once:true});
+  tiles[0].classList.add('triptych-active');
+  if(!beauty||beauty.readyState>=2)revealBeauty();
+  else{
+   beauty.addEventListener('loadeddata',revealBeauty,{once:true});
+   beauty.addEventListener('canplay',revealBeauty,{once:true});
+  }
+  if(!activity||activity.readyState>=2)revealActivity();
+  else{
+   activity.addEventListener('loadeddata',revealActivity,{once:true});
+   activity.addEventListener('canplay',revealActivity,{once:true});
+  }
  };
  const observer=new IntersectionObserver(entries=>{
   if(!entries.some(entry=>entry.isIntersecting))return;
