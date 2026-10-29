@@ -535,7 +535,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  };
  const continueStage=()=>{
   if(!visible||!curtainReady||!forwardReady())return;
-  if(stage==='initial'){show(forward);forward.currentTime=0;wait(3000,beginForward);return;}
+  if(stage==='initial'){show(forward);forward.currentTime=0;wait(1500,beginForward);return;}
   if(stage==='forward'){const p=forward.play();if(p&&p.catch)p.catch(()=>{});return;}
   if(stage==='forward-hold'){wait(500,beginReverse);return;}
   if(stage==='reverse'){const p=reverse.play();if(p&&p.catch)p.catch(()=>{});return;}
