@@ -486,7 +486,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  io.observe(el);
 })();
 </script><script>
-/* SOCIAL EXPERIENCE trial: video-only first frame, then 3s / forward / 0.5s / reverse / 1s. */
+/* SOCIAL EXPERIENCE trial: forward video begins independently; reverse is prepared only at its handoff. */
 (function(){
  const forward=document.querySelector('.social-experience-forward');
  const reverse=document.querySelector('.social-experience-reverse');
@@ -494,22 +494,33 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  if(!forward||!reverse||!tile)return;
  const clips=[forward,reverse];
  clips.forEach(v=>{v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=false;v.playbackRate=.7;});
- let visible=false,curtainReady=!tile.classList.contains('triptych-pending'),stage='initial',timer=null,reverseSeeking=false,forwardSeeking=false;
- const mediaReady=()=>forward.readyState>=2&&reverse.readyState>=2;
+ let visible=false,curtainReady=!tile.classList.contains('triptych-pending'),stage='initial',timer=null,reverseSeeking=false,reverseLoading=false;
+ const forwardReady=()=>forward.readyState>=2;
+ const reverseReady=()=>reverse.readyState>=2;
  const clearTimer=()=>{if(timer!==null){clearTimeout(timer);timer=null;}};
  const show=clip=>{clips.forEach(v=>v.classList.toggle('is-visible',v===clip));};
  const pauseAll=()=>clips.forEach(v=>v.pause());
- const wait=(milliseconds,next)=>{clearTimer();timer=setTimeout(()=>{timer=null;if(visible&&curtainReady&&mediaReady())next();},milliseconds);};
+ const wait=(milliseconds,next)=>{clearTimer();timer=setTimeout(()=>{timer=null;if(visible&&curtainReady)next();},milliseconds);};
  const beginForward=()=>{
-  if(!visible||!curtainReady||!mediaReady())return;
+  if(!visible||!curtainReady||!forwardReady())return;
   stage='forward';show(forward);forward.playbackRate=.7;
   const p=forward.play();if(p&&p.catch)p.catch(()=>{});
  };
  const beginReverse=()=>{
-  if(!visible||!curtainReady||!mediaReady()||reverseSeeking)return;
+  if(!visible||!curtainReady||reverseSeeking)return;
+  if(!reverseReady()){
+   if(!reverseLoading){
+    reverseLoading=true;
+    const onReady=()=>{reverseLoading=false;beginReverse();};
+    reverse.addEventListener('loadeddata',onReady,{once:true});
+    reverse.addEventListener('canplay',onReady,{once:true});
+    reverse.load();
+   }
+   return;
+  }
   const play=()=>{
    reverseSeeking=false;
-   if(!visible||!curtainReady||!mediaReady())return;
+   if(!visible||!curtainReady||!reverseReady())return;
    stage='reverse';show(reverse);reverse.playbackRate=.7;
    const p=reverse.play();if(p&&p.catch)p.catch(()=>{});
   };
@@ -519,13 +530,11 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
   reverse.currentTime=0;
  };
  const prepareForwardStart=()=>{
-  if(forward.currentTime<=.02){forwardSeeking=false;return;}
-  forwardSeeking=true;
-  forward.addEventListener('seeked',()=>{forwardSeeking=false;},{once:true});
+  if(forward.currentTime<=.02)return;
   forward.currentTime=0;
  };
  const continueStage=()=>{
-  if(!visible||!curtainReady||!mediaReady())return;
+  if(!visible||!curtainReady||!forwardReady())return;
   if(stage==='initial'){show(forward);forward.currentTime=0;wait(3000,beginForward);return;}
   if(stage==='forward'){const p=forward.play();if(p&&p.catch)p.catch(()=>{});return;}
   if(stage==='forward-hold'){wait(500,beginReverse);return;}
@@ -535,22 +544,17 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  forward.addEventListener('ended',()=>{
   if(stage!=='forward')return;
   forward.pause();stage='forward-hold';
-  /* Keep the final forward frame visible while the 0.5-second hold runs. */
+  /* Keep the final forward frame visible through the pause and reverse preparation. */
   wait(500,beginReverse);
  });
  reverse.addEventListener('ended',()=>{
   if(stage!=='reverse')return;
   reverse.pause();stage='reverse-hold';
-  /* Keep the final reverse frame visible while the forward clip seeks back to frame zero. */
+  /* Keep the final reverse frame visible while forward returns to frame zero. */
   prepareForwardStart();
   wait(1000,beginForward);
  });
- clips.forEach(v=>v.addEventListener('loadeddata',()=>{
-  v.pause();
-  if(v===forward&&stage==='initial')forward.currentTime=0;
-  if(v===reverse)reverse.currentTime=0;
-  continueStage();
- },{once:true}));
+ forward.addEventListener('loadeddata',()=>{forward.pause();forward.currentTime=0;continueStage();},{once:true});
  const updateVisibility=()=>{
   const rect=tile.getBoundingClientRect(),viewport=window.visualViewport?.height||window.innerHeight;
   const pixels=Math.max(0,Math.min(rect.bottom,viewport)-Math.max(rect.top,0));
@@ -573,7 +577,7 @@ body>header nav a{text-shadow:0 1px 7px rgba(8,18,13,.62)}
  window.addEventListener('scroll',updateVisibility,{passive:true});
  window.addEventListener('resize',updateVisibility,{passive:true});
  if(window.visualViewport)window.visualViewport.addEventListener('resize',updateVisibility,{passive:true});
- clips.forEach(v=>v.load());
+ forward.load();reverse.load();
  updateVisibility();
 })();</script><script>
 /* Screening video: 2-second initial delay, then resume on visibility; encoded video is already slowed to 0.7x. */
