@@ -35,7 +35,24 @@
     .about-note{max-width:1440px;margin:40px auto 0;font:400 10px/1.7 'Noto Sans JP',sans-serif;letter-spacing:.1em;color:#7f837c;text-align:right}
     @media(max-width:850px){.about-intro,.about-community{grid-template-columns:1fr;gap:65px}.about-intro>div:first-child{order:1}.loop-diagram{max-width:460px}.about-community>div:last-child{order:1}.about-community .lead{margin-bottom:34px}.about-note{text-align:left}}
     @media(max-width:600px){.about-desktop-break{display:none}.about-hero{min-height:72svh;padding:30px 7vw 55px}.about-hero h1{font-size:clamp(43px,11.5vw,68px);line-height:.98}.about-section{padding:92px 7vw}.about-intro h2,.about-community h2{margin-bottom:32px}.about-intro p{font-size:18px;line-height:2}.couple-placeholder{min-height:480px}.about-community .lead{font-size:25px;line-height:1.55}.about-community .body{font-size:13px;line-height:2.45}}
-  </style>
+  
+    /* ABOUT lower-part layout trial: preserve all copy; image above, editorial text below. */
+    .about-community{display:block;max-width:1440px}
+    .couple-placeholder{width:min(74vw,1080px);min-height:0;aspect-ratio:3/2;margin:0 auto clamp(72px,8vw,122px)}
+    .about-community-copy{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(55px,8vw,130px);max-width:1180px;margin:0 auto;align-items:start}
+    .about-community-heading .about-kicker{margin-bottom:28px}
+    .about-community-heading h2{margin:0}
+    .about-community-body .lead{margin:0 0 clamp(42px,4.5vw,62px);max-width:700px}
+    .about-community-body .body{max-width:780px}
+    @media(max-width:850px){
+      .couple-placeholder{width:min(100%,760px);margin-bottom:65px}
+      .about-community-copy{grid-template-columns:1fr;gap:42px}
+    }
+    @media(max-width:600px){
+      .couple-placeholder{min-height:0;aspect-ratio:3/2;margin-bottom:48px}
+      .about-community-copy{gap:32px}
+    }
+</style>
 </head>
 <body>
   <header>
@@ -77,11 +94,15 @@
     <section class="about-section" style="background:#eeece5">
       <div class="about-community">
         <div class="couple-placeholder" aria-label="男女画像の仮置き"></div>
-        <div>
-          <div class="about-kicker">SOCIAL WELLNESS CLUB</div>
-          <h2>FOR BODY,<br>MIND &amp; LIFE</h2>
-          <p class="lead">A well-being community grounded in cutting-edge wellness and performance science, dedicated to cultivating both physical and mental maturity to elevate life performance.</p>
-          <p class="body">特別なエクスペリエンスを実現するコンディショニングセンターは、最先端のテクノロジーを用いた「ウェルネススクリーニング」に始まり、世界基準の知識を有する専属のパフォーマンススペシャリストによる個別最適化した革新的なパーソナルレッスン「ビューティーコンディショニング」で、男女問わずお客さま一人ひとりがご希望されるパフォーマンスやリカバリー、そして美しいシルエットを達成できるようお手伝いいたします。更に提携レストランでのクリーンイーティング、スタジオ外でのサーフィンレッスンや、ナチュラルワインパーティーなども交えて、ソーシャルな「ウェルネスライフ」をお届けいたします</p>
+        <div class="about-community-copy">
+          <div class="about-community-heading">
+            <div class="about-kicker">SOCIAL WELLNESS CLUB</div>
+            <h2>FOR BODY,<br>MIND &amp; LIFE</h2>
+          </div>
+          <div class="about-community-body">
+            <p class="lead">A well-being community grounded in cutting-edge wellness and performance science, dedicated to cultivating both physical and mental maturity to elevate life performance.</p>
+            <p class="body">特別なエクスペリエンスを実現するコンディショニングセンターは、最先端のテクノロジーを用いた「ウェルネススクリーニング」に始まり、世界基準の知識を有する専属のパフォーマンススペシャリストによる個別最適化した革新的なパーソナルレッスン「ビューティーコンディショニング」で、男女問わずお客さま一人ひとりがご希望されるパフォーマンスやリカバリー、そして美しいシルエットを達成できるようお手伝いいたします。更に提携レストランでのクリーンイーティング、スタジオ外でのサーフィンレッスンや、ナチュラルワインパーティーなども交えて、ソーシャルな「ウェルネスライフ」をお届けいたします</p>
+          </div>
         </div>
       </div>
     </section>
