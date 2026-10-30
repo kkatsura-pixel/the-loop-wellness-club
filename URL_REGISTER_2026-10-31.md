@@ -29,7 +29,7 @@ Therefore their relative navigation links resolve as follows:
 
 ## Pages not currently assigned a role
 - `/review/about.html` is a duplicate-content page with the same baseline blob SHA as `/review/about-test.html`. It is not an endpoint in the formal HOME/ABOUT navigation observed above. Its role is **unassigned**.
-- Thirty-six additional `/review/*test*.html`, performance-test, motion-test, and proof pages exist. Their presence does not imply that they are deletable. Their inbound references and asset dependencies will be assessed in the read-only dependency inventory.
+- Thirty-seven additional `/review/*test*.html`, performance-test, motion-test, and proof pages exist. Their presence does not imply that they are deletable. Their inbound references and asset dependencies will be assessed in the read-only dependency inventory.
 
 ## Prohibitions preserved
 No URL role, URL path, link, page content, asset, CSS, JavaScript, video, HLS item, or folder was changed while compiling this register.
