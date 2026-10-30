@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base href="./review/">
+  <meta name="description" content="THE LOOP — ABOUT trial">
+  <title>ABOUT — THE LOOP</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    :root{--ink:#19251f;--paper:#f4f1ea;--line:#c9c8bf;--sage:#9ba592;--warm:#d8d0c4}
+    .about-hero{position:relative;min-height:84svh;display:flex;align-items:flex-end;padding:clamp(36px,8vw,110px);color:#fff;isolation:isolate;overflow:hidden;background:#859087}
+    .about-hero::before{content:"";position:absolute;inset:0;z-index:0;background:url('IMG_5167.png') center/cover no-repeat}
+    .about-hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(18,31,24,.25),rgba(18,31,24,.05) 48%,rgba(12,20,16,.64))}
+    .about-hero .placeholder-caption{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:400 11px/1.5 'Noto Sans JP',sans-serif;letter-spacing:.18em;white-space:nowrap;opacity:.72}
+    .about-hero h1{position:relative;z-index:2;max-width:980px;margin:0;transform:translateY(.25em);font:400 clamp(48px,7.2vw,116px)/.95 'Cormorant Garamond',Georgia,serif;letter-spacing:.025em}
+    .about-hero h1 span{display:block}.about-hero h1 span:last-child{margin-left:.15em}
+    .about-section{padding:clamp(95px,13vw,190px) 8vw;background:var(--paper)}
+    .about-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.95fr);gap:clamp(55px,11vw,180px);align-items:center;max-width:1440px;margin:auto}
+    .about-kicker{font:400 11px/1.5 'Noto Sans JP',sans-serif;letter-spacing:.19em;color:#68736a;margin-bottom:28px}
+    .about-intro h2,.about-community h2{font:400 clamp(44px,5.4vw,84px)/.98 'Cormorant Garamond',Georgia,serif;letter-spacing:.015em;color:var(--ink);margin:0 0 45px}
+    .about-intro p{font:400 clamp(18px,1.72vw,27px)/2.05 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.04em;color:var(--ink);margin:0;max-width:680px}.about-intro .copy-dash{display:inline-block;letter-spacing:-.16em}
+    .loop-diagram{max-width:530px;width:100%;aspect-ratio:1;margin:auto;transform:translateY(4px)}
+    .loop-diagram svg{display:block;width:100%;height:100%;overflow:visible}
+    .loop-diagram .outer{fill:none;stroke:#5d645e;stroke-width:.19}
+    .loop-diagram .arc{fill:none;stroke:#59605a;stroke-width:.24;stroke-linecap:round}
+    .loop-diagram .core{fill:#19261f}
+    .loop-diagram .core-type{fill:#fff;font:400 4.15px/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.42px;text-anchor:middle}
+    .loop-diagram .label-ja{fill:var(--ink);font:400 7.15px/1 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.3px;text-anchor:middle}
+    .loop-diagram .label-en{fill:var(--ink);font:400 2.08px/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.72px;text-anchor:middle}
+    .about-community{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1fr);gap:clamp(55px,10vw,170px);max-width:1440px;margin:auto;align-items:start}
+    .couple-placeholder{min-height:clamp(500px,66vw,830px);background:url('about-couple-trial.jpg') center/cover no-repeat;position:relative;overflow:hidden;filter:brightness(1.055) contrast(1.13) saturate(.90)}
+    .couple-placeholder::after{display:none}
+    .about-community .lead{font:400 clamp(22px,2.1vw,34px)/1.65 'Cormorant Garamond',Georgia,serif;letter-spacing:.015em;color:var(--ink);margin:0 0 48px;max-width:700px}
+    .about-community .body{font:400 clamp(14px,1.08vw,17px)/2.5 'Noto Serif JP','Yu Mincho',serif;letter-spacing:.045em;color:#354139;margin:0;max-width:780px}
+    .about-note{max-width:1440px;margin:40px auto 0;font:400 10px/1.7 'Noto Sans JP',sans-serif;letter-spacing:.1em;color:#7f837c;text-align:right}
+    @media(max-width:850px){.about-intro,.about-community{grid-template-columns:1fr;gap:65px}.about-intro>div:first-child{order:1}.loop-diagram{max-width:460px}.about-community>div:last-child{order:1}.about-community .lead{margin-bottom:34px}.about-note{text-align:left}}
+    @media(max-width:600px){.about-desktop-break{display:none}.about-hero{min-height:72svh;padding:30px 7vw 55px}.about-hero h1{font-size:clamp(43px,11.5vw,68px);line-height:.98}.about-section{padding:92px 7vw}.about-intro h2,.about-community h2{margin-bottom:32px}.about-intro p{font-size:18px;line-height:2}.couple-placeholder{min-height:480px}.about-community .lead{font-size:25px;line-height:1.55}.about-community .body{font-size:13px;line-height:2.45}}
+  
+    /* ABOUT lower-part layout trial: preserve all copy; image above, editorial text below. */
+    .about-community{display:block;max-width:1440px}
+    .couple-placeholder{width:min(74vw,1080px);min-height:0;aspect-ratio:3/2;margin:0 auto clamp(72px,8vw,122px)}
+    .about-community-copy{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(55px,8vw,130px);max-width:1180px;margin:0 auto;align-items:start}
+    .about-community-heading .about-kicker{margin-bottom:28px}
+    .about-community-heading h2{margin:0}
+    .about-community-body .lead{margin:0 0 clamp(42px,4.5vw,62px);max-width:700px}
+    .about-community-body .body{max-width:780px}
+    @media(max-width:850px){
+      .couple-placeholder{width:min(100%,760px);margin-bottom:65px}
+      .about-community-copy{grid-template-columns:1fr;gap:42px}
+    }
+    @media(max-width:600px){
+      .couple-placeholder{min-height:0;aspect-ratio:3/2;margin-bottom:48px}
+      .about-community-copy{gap:32px}
+    }
+
+    /* ABOUT brand-film placement trial: frame only; no video, sound or additional copy. */
+    .about-brand-film{padding:clamp(80px,10vw,150px) 8vw clamp(110px,13vw,190px);background:#eeece5}
+    .about-brand-film-frame{width:min(38vw,500px);aspect-ratio:9/16;margin:auto;background:#19261f;border:1px solid rgba(255,255,255,.16)}
+    @media(max-width:850px){.about-brand-film-frame{width:min(62vw,500px)}}
+    @media(max-width:600px){.about-brand-film{padding:72px 7vw 92px}.about-brand-film-frame{width:min(78vw,420px)}}
+</style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="../">THE LOOP</a>
+    <nav aria-label="Site navigation">
+      <a href="../">HOME</a><a href="../about.html" aria-current="page">ABOUT</a><a href="services.html">SERVICES</a><a href="experience.html">EXPERIENCE</a><a href="membership.html">MEMBERSHIP</a><a href="founder.html">FOUNDER</a><a href="invitation.html">INVITATION</a><a href="access.html">ACCESS</a>
+    </nav>
+  </header>
+  <main>
+    <section class="about-hero">
+      <h1><span>WELCOM TO</span><span>SOCIAL WELLNESS CLUB</span></h1>
+    </section>
+    <section class="about-section">
+      <div class="about-intro">
+        <div>
+          <div class="about-kicker">REGENERATIVE</div>
+          <h2>THE LOOP</h2>
+          <p>THE LOOPは、&ldquo;REGENERATIVE&rdquo;<br class="about-desktop-break"><span class="copy-dash">──</span>　自己再生　<span class="copy-dash">──</span>　をテーマに、<br class="about-desktop-break">ライフスタイルデザインを提案する<br class="about-desktop-break">SOCIAL WELLNESS CLUBです</p>
+        </div>
+        <div class="loop-diagram" role="img" aria-label="知る・整える・繋がるをTHE LOOPの中心でつなぐ循環図">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="outer" cx="50" cy="50" r="48.6" />
+            <path class="arc" d="M38.70 23.95 A28.4 28.4 0 0 0 23.31 59.71" />
+            <path class="arc" d="M61.30 23.95 A28.4 28.4 0 0 1 76.69 59.71" />
+            <path class="arc" d="M61.70 78.00 A30.35 30.35 0 0 1 38.30 78.00" />
+            <circle class="core" cx="50" cy="50" r="11.1" />
+            <text class="core-type" x="50" y="48.4">THE</text>
+            <text class="core-type" x="50" y="53.25">LOOP</text>
+            <text class="label-ja" x="50" y="15.1">知る</text>
+            <text class="label-en" x="50" y="21.1">SCREENING</text>
+            <text class="label-ja" x="23.4" y="69.0">整える</text>
+            <text class="label-en" x="23.4" y="75.0">CONDITIONING</text>
+            <text class="label-ja" x="76.6" y="69.0">繋がる</text>
+            <text class="label-en" x="76.6" y="75.0">SOCIAL ACTIVITY</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+    <section class="about-section" style="background:#eeece5">
+      <div class="about-community">
+        <div class="couple-placeholder" aria-label="男女画像の仮置き"></div>
+        <div class="about-community-copy">
+          <div class="about-community-heading">
+            <div class="about-kicker">SOCIAL WELLNESS CLUB</div>
+            <h2>FOR BODY,<br>MIND &amp; LIFE</h2>
+          </div>
+          <div class="about-community-body">
+            <p class="lead">A well-being community grounded in cutting-edge wellness and performance science, dedicated to cultivating both physical and mental maturity to elevate life performance.</p>
+            <p class="body">特別なエクスペリエンスを実現するコンディショニングセンターは、最先端のテクノロジーを用いた「ウェルネススクリーニング」に始まり、世界基準の知識を有する専属のパフォーマンススペシャリストによる個別最適化した革新的なパーソナルレッスン「ビューティーコンディショニング」で、男女問わずお客さま一人ひとりがご希望されるパフォーマンスやリカバリー、そして美しいシルエットを達成できるようお手伝いいたします。更に提携レストランでのクリーンイーティング、スタジオ外でのサーフィンレッスンや、ナチュラルワインパーティーなども交えて、ソーシャルな「ウェルネスライフ」をお届けいたします</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="about-brand-film" aria-label="ブランドフィルム配置の試作">
+      <div class="about-brand-film-frame" role="img" aria-label="縦型ブランドフィルムの仮枠"></div>
+    </section>
+  </main>
+  <footer>© 2026 THE LOOP. All rights reserved.</footer>
+</body>
+</html>
