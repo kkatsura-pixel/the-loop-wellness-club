@@ -25,7 +25,8 @@ Formal separation from `review/` completed on `main`.
 - Formal HTML `review/` references: 0.
 - Formal HTML parent-directory (`../`) navigation references: 0.
 
-## Pending completion gates
-- GitHub Pages workflow result: pending retrieval.
-- Formal URLs on user iPad Safari: pending confirmation.
+## Verification result
+- User iPad Safari confirmed that navigation between formal pages never enters `/review/` or `/recovery-preview/`.
+- This is the final URL-isolation confirmation.
+- GitHub Pages workflow result could not be retrieved through the connector, but the user’s iPad Safari result confirms the deployed formal pages are reachable.
 - `review/` remains intact; do not delete, move, or batch edit it.
