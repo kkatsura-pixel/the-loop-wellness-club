@@ -65,6 +65,13 @@
     .about-intro .copy-dash{color:#788178;font-weight:300}
     .about-intro h2{margin-bottom:68px}
 
+    /* Approved ABOUT community typography from trial. */
+    @media(min-width:851px){
+      .about-community-copy{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(70px,9vw,150px);max-width:1200px}
+      .about-community-body .lead{font-size:clamp(22px,1.9vw,32px);line-height:1.7;letter-spacing:.012em;margin-bottom:clamp(50px,5vw,72px);max-width:680px}
+      .about-community-body .body{font-size:clamp(14px,1.02vw,16px);line-height:2.35;letter-spacing:.045em;max-width:720px}
+    }
+
     /* Approved ABOUT title wrap and HOME editorial reveal. */
     @media(min-width:851px){
       .about-community-title-line{white-space:nowrap}
@@ -141,7 +148,6 @@
         <div class="couple-placeholder" aria-label="男女画像の仮置き"></div>
         <div class="about-community-copy">
           <div class="about-community-heading">
-            <div class="about-kicker">SOCIAL WELLNESS CLUB</div>
             <h2>FOR BODY,<br><span class="about-community-title-line">MIND &amp; LIFE</span></h2>
           </div>
           <div class="about-community-body">
