@@ -76,7 +76,25 @@
     .about-intro .copy-dash{color:#788178;font-weight:300}
     .about-intro h2{margin-bottom:68px}
 
-</style>
+
+    /* ABOUT trial: HOME editorial reveal values, applied once on scroll. */
+    @media (prefers-reduced-motion:no-preference){
+      .about-editorial-test.about-editorial-pending{
+        opacity:0;
+        transform:translate3d(0,52px,0);
+        filter:blur(3px);
+        transition:opacity 1.35s cubic-bezier(.22,1,.36,1),
+                   transform 2.05s cubic-bezier(.22,1,.36,1),
+                   filter 1.55s ease;
+        transition-delay:var(--about-editorial-delay,0ms);
+      }
+      .about-editorial-test.about-editorial-pending.about-editorial-visible{
+        opacity:1;
+        transform:translate3d(0,0,0);
+        filter:blur(0);
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -133,5 +151,40 @@
     </section>
   </main>
   <footer>© 2026 THE LOOP. All rights reserved.</footer>
-</body>
+
+  <script>
+  /* ABOUT trial: reuse HOME's one-time editorial text reveal. */
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+    const pairs=[
+      ['.about-intro h2',0],
+      ['.about-intro p',300],
+      ['.loop-diagram',500],
+      ['.about-community-heading h2',0],
+      ['.about-community-body .lead',320],
+      ['.about-community-body .body',640],
+      ['.about-brand-film-frame',0]
+    ];
+    const targets=[];
+    for(const [selector,delay] of pairs){
+      document.querySelectorAll(selector).forEach(el=>{
+        el.classList.add('about-editorial-test');
+        el.style.setProperty('--about-editorial-delay',delay+'ms');
+        targets.push(el);
+      });
+    }
+    targets.forEach(el=>{
+      if(el.getBoundingClientRect().top>window.innerHeight*.55)el.classList.add('about-editorial-pending');
+    });
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        entry.target.classList.add('about-editorial-visible');
+        observer.unobserve(entry.target);
+      });
+    },{threshold:0,rootMargin:'0px 0px -28% 0px'});
+    targets.filter(el=>el.classList.contains('about-editorial-pending')).forEach(el=>observer.observe(el));
+  })();
+  </script>
+  </body>
 </html>
