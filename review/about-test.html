@@ -94,6 +94,23 @@
         filter:blur(0);
       }
     }
+  
+    /* ABOUT diagram special reveal: retain its final 4px position and SVG unchanged. */
+    @media (prefers-reduced-motion:no-preference){
+      .loop-diagram.about-editorial-test.about-editorial-pending{
+        opacity:0;
+        transform:translateY(4px) scale(.975);
+        filter:blur(2px);
+        transition:opacity 3s cubic-bezier(.22,1,.36,1),
+                   transform 3s cubic-bezier(.22,1,.36,1),
+                   filter 3s ease;
+      }
+      .loop-diagram.about-editorial-test.about-editorial-pending.about-editorial-visible{
+        opacity:1;
+        transform:translateY(4px) scale(1);
+        filter:blur(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -158,8 +175,8 @@
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
     const pairs=[
       ['.about-intro h2',0],
-      ['.about-intro p',300],
-      ['.loop-diagram',500],
+      ['.about-intro p',350],
+      ['.loop-diagram',750],
       ['.about-community-heading h2',0],
       ['.about-community-body .lead',320],
       ['.about-community-body .body',640],
