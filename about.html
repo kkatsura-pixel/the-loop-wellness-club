@@ -56,8 +56,8 @@
 
     /* ABOUT brand-film placement trial: frame only; no video, sound or additional copy. */
     .about-brand-film{padding:clamp(80px,10vw,150px) 8vw clamp(110px,13vw,190px);background:#f5f3ee}
-    .about-brand-film-frame{width:min(38vw,500px);aspect-ratio:9/16;margin:auto;background:#19261f;border:1px solid rgba(255,255,255,.16)}
-    @media(max-width:850px){.about-brand-film-frame{width:min(62vw,500px)}}
+    .about-brand-film-frame{width:min(32vw,420px);aspect-ratio:9/16;margin:auto;overflow:hidden}.about-brand-film-frame video{display:block;width:100%;height:100%;object-fit:cover}
+    @media(max-width:850px){.about-brand-film-frame{width:min(52vw,400px)}}
     @media(max-width:600px){.about-brand-film{padding:72px 7vw 92px}.about-brand-film-frame{width:min(78vw,420px)}}
 
     /* Approved ABOUT intro typography from trial. */
@@ -138,7 +138,7 @@
             <text class="label-ja" x="23.4" y="69.0">整える</text>
             <text class="label-en" x="23.4" y="75.0">CONDITIONING</text>
             <text class="label-ja" x="76.6" y="69.0">繋がる</text>
-            <text class="label-en" x="76.6" y="75.0">SOCIAL ACTIVITY</text>
+            <text class="label-en" x="74.7333" y="75.0">SOCIAL EXPERIENCE</text>
           </svg>
         </div>
       </div>
@@ -158,7 +158,7 @@
       </div>
     </section>
     <section class="about-brand-film" aria-label="ブランドフィルム配置の試作">
-      <div class="about-brand-film-frame" role="img" aria-label="縦型ブランドフィルムの仮枠"></div>
+      <div class="about-brand-film-frame"><video src="site-assets/ロングPV.mp4" autoplay muted loop playsinline preload="metadata" aria-label="THE LOOP ブランドフィルム"></video></div>
     </section>
   </main>
   <footer>© 2026 THE LOOP. All rights reserved.</footer>
